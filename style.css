@@ -1,0 +1,65 @@
+body{
+    background-color:green;
+    display: flex;
+}
+
+.container {
+    flex-direction: column;
+    justify-content: space-between;
+    display: flex;
+}
+
+.container>.player-cards,.rival,.jackpot {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: center;
+}
+
+.card {
+    width: 10%;
+    height: 30%;
+}
+
+/* 
+.Jackpot{
+    flex-direction: row 
+}
+
+.Jackpot>.card{
+    position: fixed;
+    top: 50%;
+    left: 43.5%;
+    transform: translate(-50%, -50%);
+
+}
+
+.card{
+    width: 10%;
+    height: 30%;
+
+}
+
+html,body{
+    margin: 0; 
+    height: 100%; 
+    overflow: hidden
+}
+
+.playerCards,.rival{
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+}
+
+.playerCards{
+    position: fixed;
+    bottom: 0;
+}
+.rival>.card{
+    margin-top: -10%;
+}
+
+.playerCards>.card{
+    margin-bottom: -10%;
+} */
