@@ -9,7 +9,7 @@ body{
     display: flex;
 }
 
-.container>.player-cards,.rival,.jackpot {
+.container>.player-cards,.rival-cards,.jackpot {
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
