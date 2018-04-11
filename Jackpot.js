@@ -5,12 +5,14 @@ var gameStarted = false;
 var Jackpot;
 var rivalCards;
 var playerCards;
+var cardIdCounter = 0;
 
 Jackpot = createJackpot();
 rivalCards = shareCards("rival");
 showJackpot();
 playerCards = shareCards("player");
 gameStarted= true;
+console.log("started len of player : " + playerCards.length);
 
 function createCard(color,value)
 {
@@ -19,6 +21,7 @@ function createCard(color,value)
     this.taken = false;
     this.isOnTop = false;
     this.played = false;
+    this.cardId = cardIdCounter++;
 }
 
 function createJackpot()
@@ -57,7 +60,6 @@ function shareCards(playerType)
     elementToAdd.id = playerType;
     containerElement.appendChild(elementToAdd);
 
-
     var cards = [];
     for(var i = 0; i < 8; i++)
     {
@@ -68,7 +70,7 @@ function shareCards(playerType)
 
 function addCard(playerType, elemntClassName, indexForCardId, arrToAddTheCard)
 {
-    var playersCardsIndex = indexForCardId;
+    //var playersCardsIndex = indexForCardId;
     do{
         var index = Math.floor(Math.random() * Jackpot.length);
     }while(Jackpot[index].taken === true);
@@ -80,39 +82,55 @@ function addCard(playerType, elemntClassName, indexForCardId, arrToAddTheCard)
     if (playerType === "rival")
     {
         CardImage.src = "cards/card_back.png";
-        if(gameStarted === true)
-        {
-            playersCardsIndex = rivalCards.length-1;
-        }
+        // if(gameStarted === true)
+        // {
+        //     playersCardsIndex = rivalCards.length;
+        // }
     }
     else
     {
         CardImage.src = getCardSource(Jackpot[index]);
-        if(gameStarted === true)
-        {
-            playersCardsIndex = playerCards.length;
-        }
+        // if(gameStarted === true)
+        // {
+        //     playersCardsIndex = playerCards.length;
+        // }
     }
     
     CardImage.alt = elemntClassName;
     CardImage.onclick =  function() {checkCard(elemntClassName,Jackpot[index],cardOntop, CardImage.id)};
-    CardImage.id = playerType + playersCardsIndex;
+    CardImage.id = Jackpot[index].cardId;
+    //CardImage.id = playerType + playersCardsIndex;
     elementToAddTo.appendChild(CardImage);
     arrToAddTheCard.push(Jackpot[index]);
+
+    if( gameStarted === true)
+    {
+        console.log("after adding len of player : " + playerCards.length);
+        console.log("card added index: " + CardImage.id);
+    }
 }
 
-function removeCard(card, elemntClassName, cardId)
+function removeCard(card, elemntClassName)
 {
-
     var cardParent = document.getElementsByClassName(elemntClassName)[0];
-    var cardElement = document.getElementById(cardId);
+    var cardElement = document.getElementById(card.cardId);
 
     if(elemntClassName === "player-cards")
     {
-        var arrIndex = cardId.match(/\d+$/)[0];
-        playerCards.splice(arrIndex,1);
+        for(var key in playerCards)
+        {
+            if(playerCards[key].cardId === card.cardId)
+            {
+                playerCards.splice(playerCards.indexOf(playerCards[key]),1);
+                break;
+            }
+        }
+        //var arrIndex = cardcard.cardIdId.match(/\d+$/)[0];
+        //playerCards.splice(arrIndex,1);
         card.played = true;
         cardParent.removeChild(cardElement);
+        console.log("after removing len of player : " + playerCards.length);
+        console.log("card removed index: " + card.cardId);
     }    
 }
 

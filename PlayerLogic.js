@@ -1,4 +1,4 @@
-function checkCard(elemntClassName, card, cardOntop, cardID)
+function checkCard(elemntClassName, card, cardOntop)
 {
     if(elemntClassName === "player-cards")
     {
@@ -6,7 +6,7 @@ function checkCard(elemntClassName, card, cardOntop, cardID)
         if(card.color === cardOntop.color)
         {
             console.log("color ok!");
-            removeCard(card,elemntClassName, cardID);
+            removeCard(card,elemntClassName);
             setNewCardOnTop(card);
         }
 
@@ -14,14 +14,14 @@ function checkCard(elemntClassName, card, cardOntop, cardID)
         else if(card.value === cardOntop.value)
         {
             console.log("value ok!");
-            removeCard(card,elemntClassName, cardID);
+            removeCard(card,elemntClassName);
             setNewCardOnTop(card);
         }
 
         // change color
         else if(card.value === "change_colorful")
         {
-            removeCard(card,elemntClassName, cardID);
+            removeCard(card,elemntClassName);
             setNewCardOnTop(card);        
             
         }
