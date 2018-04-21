@@ -9,7 +9,7 @@ body{
     display: flex;
 }
 
-.container>.player-cards,.rival-cards,.jackpot {
+.container>.player-cards,.rival-cards,.deck {
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
@@ -18,48 +18,23 @@ body{
 .card {
     width: 10%;
     height: 30%;
+    margin-left: -30px;
 }
 
-/* 
-.Jackpot{
-    flex-direction: row 
+.red{
+    background-color: red;
+}
+.blue{
+    background-color: blue;
+}
+.yellow{
+    background-color: yellow;
+}
+.green{
+    background-color: green;
 }
 
-.Jackpot>.card{
-    position: fixed;
-    top: 50%;
-    left: 43.5%;
-    transform: translate(-50%, -50%);
-
+button{
+    width: 100px;
+    height: 100px;
 }
-
-.card{
-    width: 10%;
-    height: 30%;
-
-}
-
-html,body{
-    margin: 0; 
-    height: 100%; 
-    overflow: hidden
-}
-
-.playerCards,.rival{
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-
-}
-
-.playerCards{
-    position: fixed;
-    bottom: 0;
-}
-.rival>.card{
-    margin-top: -10%;
-}
-
-.playerCards>.card{
-    margin-bottom: -10%;
-} */
