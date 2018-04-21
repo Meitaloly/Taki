@@ -23,6 +23,7 @@ function addCardToPlayersArrAndDom()
         addCardToPlayersDom("rival","rival-cards",index);
 
     }
+    //resizeCards();
     changeTurn(1);
 }
 

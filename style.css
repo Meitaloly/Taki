@@ -7,19 +7,27 @@ body{
     flex-direction: column;
     justify-content: space-between;
     display: flex;
+    margin: 0 auto;
 }
 
 .container>.player-cards,.rival-cards,.deck {
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
+    position: relative;
 }
 
 .card {
     width: 10%;
     height: 30%;
-    margin-left: -30px;
+    transition: all .3s ease-in-out;  
 }
+
+.player-cards>.card:hover{
+    transform: translateY(-50px);
+    
+}
+
 
 .red{
     background-color: red;
@@ -34,7 +42,15 @@ body{
     background-color: green;
 }
 
+#colorWindow{
+    position: absolute;
+    width: 160px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) rotate(-45deg);
+}
+
 button{
-    width: 100px;
-    height: 100px;
+    width: 60px;
+    height: 60px;
 }

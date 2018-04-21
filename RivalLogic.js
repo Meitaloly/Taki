@@ -1,9 +1,24 @@
 function rivalPlay()
 {
     console.log("rival plays:");
+
+    if(players[turnIndex].indexOf())
+
+
+function getCardIndex(value)
+{
+    for(let key in players[turnIndex])
+    {
+        if(players[turnIndex][key].value === value)
+        {
+            players[turnIndex].splice(key,1);
+            break;
+        }
+    }
+}
     for(var j=0; j<players[turnIndex].length; j++)
     {
-        var card =players[turnIndex][j];
+        var card = players[turnIndex][j];
         if(card.value === "change_colorful")
         {
             removeAndSetTopCard(card,"rival-cards");
@@ -53,29 +68,6 @@ function rivalPlay()
         }
     }
 }
-    
-
-                
-//                     if(card.value === cardOntop.value)
-//                     {
-//                         removeAndSetTopCard(card,"rival-cards");
-//                         isSpecialCard(card);
-//                         changeTurn();
-//                     }
-//                     else{
-//                         console.log("player " +turnIndex + " didn't find change color");
-//                         console.log("player " +turnIndex + " didn't find stop");
-//                         console.log("player " +turnIndex + " didn't find taki");
-//                         console.log("player " +turnIndex + " didn't find same color");
-//                         console.log("player " +turnIndex + " didn't find same value");
-//                     addCardToPlayersArrAndDom();
-//                     }
-//                 }
-//             }
-//             break;
-//         }
-//     }  
-// }
 
 function findAllCardWithSameColor(playerArr, color)
 {

@@ -16,8 +16,6 @@ function shareCards(playerType)
     return cards;
 }
 
-
-
 function addCardToPlayersDom(playerType, elementClassName,index)
 {
     var elementToAddTo = document.getElementsByClassName(elementClassName)[0];
@@ -42,14 +40,7 @@ function addCardToPlayersDom(playerType, elementClassName,index)
         }
     };
     CardImage.id = deck[index].cardId;
-    elementToAddTo.appendChild(CardImage);
-    
-
-    // if( gameStarted === true)
-    // {
-    //     console.log("after adding len of player : " + playerCards.length);
-    //     console.log("card added index: " + CardImage.id);
-    // }
+    elementToAddTo.appendChild(CardImage); 
 }
 
 function removeCardFromPlayersDom(card, elemntClassName)
@@ -57,6 +48,8 @@ function removeCardFromPlayersDom(card, elemntClassName)
     var cardParent = document.getElementsByClassName(elemntClassName)[0];
     var cardElement = document.getElementById(card.cardId);
     cardParent.removeChild(cardElement);
+    //resizeCards(); 
+
 }
 
 function showdeck()

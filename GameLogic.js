@@ -4,8 +4,6 @@ var cardOntop;
 var gameStarted = false;
 var deck;
 var players = [];
-// var rivalCards;
-// var playerCards;
 var numOfPlayers = 2;
 var turnIndex = numOfPlayers-1;
 var player = turnIndex;
@@ -13,11 +11,7 @@ var openTaki = false;
 
 deck = createdeck();
 shareCardsToPlayers();
-// rivalCards = shareCards("rival");
 printall();
-// playerCards = shareCards("player");
-gameStarted= true;
-// console.log("started len of player : " + playerCards.length);
 
 function shareCardsToPlayers()
 {
@@ -28,7 +22,6 @@ function shareCardsToPlayers()
         {
             showdeck();
             players[i] = shareCards("player");
-            
         }
         else
         {
@@ -107,6 +100,7 @@ function removeCardFromPlayersArr(card)
         }
     }
     card.played = true;
+    resizeCards();
         // console.log("after removing len of player : " + playerCards.length);
         // console.log("card removed index: " + card.cardId);  
 }
@@ -171,7 +165,7 @@ function changeTurn(number)
 {
     console.log("***********");
     console.log("turnIndex before changing: " + turnIndex);
-    turnIndex = (turnIndex+number) % numOfPlayers;
+    turnIndex = (turnIndex + number) % numOfPlayers;
     console.log("turnIndex after changing: " + turnIndex);
     console.log("player index: " + player);
     if(turnIndex !== player)
@@ -179,3 +173,21 @@ function changeTurn(number)
         setTimeout(rivalPlay,2000);
     }
 }
+
+// function resizeCards()
+// {
+//     var left = 50;
+//     for(var i=0; i<numOfPlayers; i++)
+//     {
+//         for(var key in players[i])
+//         {
+//             var card = document.getElementById(players[i][key].cardId);
+//             console.log("*****************" + players[i][key].cardId);
+//             var newLeft = left * key;
+//             card.style.left =newLeft + "px";
+//         }
+
+//         var cardId = document.getElementById(i===0?"rival":"player");
+//         cardId.style.transform = 'translateX('+ -120 +'px)';
+//     }
+// }
