@@ -100,7 +100,7 @@ function removeCardFromPlayersArr(card)
         }
     }
     card.played = true;
-    resizeCards();
+    //resizeCards();
         // console.log("after removing len of player : " + playerCards.length);
         // console.log("card removed index: " + card.cardId);  
 }

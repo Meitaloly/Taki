@@ -2,9 +2,6 @@ function rivalPlay()
 {
     console.log("rival plays:");
 
-    if(players[turnIndex].indexOf())
-
-
 function getCardIndex(value)
 {
     for(let key in players[turnIndex])
