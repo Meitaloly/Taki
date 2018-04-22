@@ -1,11 +1,16 @@
 function shareCards(playerType)
 {
     var containerElement = document.getElementsByClassName('container')[0];
+    var cardsContainerElement = document.createElement('div');
+    var cardsContainerClassName = playerType + "-" + "container";
+    cardsContainerElement.className = cardsContainerClassName; 
+    containerElement.appendChild(cardsContainerElement);
+
     var elementToAdd = document.createElement('div');
     var elementClassName = playerType + "-" + "cards";
     elementToAdd.className = elementClassName; 
     elementToAdd.id = playerType;
-    containerElement.appendChild(elementToAdd);
+    cardsContainerElement.appendChild(elementToAdd);
 
     var cards = [];
     for(var i = 0; i < 8; i++)
@@ -41,6 +46,7 @@ function addCardToPlayersDom(playerType, elementClassName,index)
     };
     CardImage.id = deck[index].cardId;
     elementToAddTo.appendChild(CardImage); 
+    resizeCards();
 }
 
 function removeCardFromPlayersDom(card, elemntClassName)
@@ -48,13 +54,12 @@ function removeCardFromPlayersDom(card, elemntClassName)
     var cardParent = document.getElementsByClassName(elemntClassName)[0];
     var cardElement = document.getElementById(card.cardId);
     cardParent.removeChild(cardElement);
-    //resizeCards(); 
+    resizeCards(); 
 
 }
 
 function showdeck()
 {
-
     var containerElement = document.getElementsByClassName('container')[0];
     var deckDiv = document.createElement('div');
     deckDiv.className = "deck"; 
@@ -103,7 +108,7 @@ function showChooseAColorWindow()
         button.className = cardColors[i];
         button.onclick = function ()
         {
-            closeChooseAColorWindow();
+            closetButton("deck",colorWindow.id);
             cardOntop.color = this.className;
             changeOpenDeckColor(this.className);
             changeTurn(1);
@@ -113,15 +118,28 @@ function showChooseAColorWindow()
     deckElement.appendChild(colorWindow);
 }
 
-function closeChooseAColorWindow()
-{
-    var parent = document.getElementsByClassName("deck")[0];
-    var colorWindowElement = document.getElementById("colorWindow");
-    parent.removeChild(colorWindowElement);
-}
-
 function changeOpenDeckColor(color)
 {
     var openDeck = document.getElementById("opendeck");
     openDeck.src =  "cards/" + "change_colorful_" + color + ".png";
+}
+
+function createTakiButton()
+{
+    var deckElement = document.getElementsByClassName("deck")[0];
+    var takiButton = document.createElement('button');
+    takiButton.id = "takiButton";
+    deckElement.appendChild(takiButton);
+    takiButton.onclick = function(){
+        closetButton("deck",takiButton.id);
+        openTaki=false;
+        changeTurn(1);
+    }
+}
+
+function closetButton(parentName,childId)
+{
+    var parent = document.getElementsByClassName(parentName)[0];
+    var elementToRemove = document.getElementById(childId);
+    parent.removeChild(elementToRemove);
 }

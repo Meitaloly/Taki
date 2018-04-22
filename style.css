@@ -10,7 +10,18 @@ body{
     margin: 0 auto;
 }
 
-.container>.player-cards,.rival-cards,.deck {
+.rival-container, .player-container, .deck{
+    text-align: center;
+}
+
+.rival-cards, .player-cards{
+    margin: 0 auto;
+    position: relative;
+    display:inline-block;
+    margin-left: 50px;
+}
+
+.container>.player-cards,.rival-cards {
     flex-direction: row;
     justify-content: space-between;
     text-align: center;
@@ -18,17 +29,16 @@ body{
 }
 
 .card {
-    width: 10%;
-    height: 30%;
+    height: 200px;
+    width: 120px;
+    display: inline-block;
     transition: all .3s ease-in-out;  
+    position: relative;
 }
 
 .player-cards>.card:hover{
-    transform: translateY(-50px);
-    
+    transform: translateY(-50px);  
 }
-
-
 .red{
     background-color: red;
 }
@@ -50,7 +60,13 @@ body{
     transform: translate(-50%, -50%) rotate(-45deg);
 }
 
-button{
+button.red, button.blue, button.green, button.yellow{
     width: 60px;
     height: 60px;
+}
+
+#takiButton{
+    width: 120px;
+    height: 50px;
+    background: lightskyblue;
 }

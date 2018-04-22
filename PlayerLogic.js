@@ -84,7 +84,6 @@ function isSpecialCard(card)
         waitingForPlayer = true;
         console.log("choose a color");
         showChooseAColorWindow();
-        //closeChooseAColorWindow(); 
     }
     else if(card.value === "stop")
     {
@@ -92,9 +91,14 @@ function isSpecialCard(card)
     }
     else if(card.value === "taki")
     {
-        //openTaki = true;
+        if(turnIndex!== player)
+        {
+            findSpcialCardWithSameColor(takiCards);    
+            changeTurn(1);    
+        }
         console.log("open taki");
-        changeTurn(1);
+        openTaki = true;
+        createTakiButton();
     }
     else
     {

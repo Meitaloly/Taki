@@ -19,7 +19,6 @@ function getCardsFromRivalArrbByColor(color)
         if(players[turnIndex][key].color === color)
         {
             cards.push(players[turnIndex][key]);
-            break;
         }
     }
     return cards;
@@ -29,138 +28,98 @@ function getCardsFromRivalArrbByColor(color)
 function rivalPlay()
 {
     console.log("rival plays");
-    var cards = [];
-    var stop = false;
+    var goodCardFound = false;
 
-    cards = getCardsFromRivalArrbByValue("change_colorful");
+    var changeColorCards = getCardsFromRivalArrbByValue("change_colorful");
     
-    console.log ("cards after change color:");
-    for (var i = 0; i <cards.length; i++)
+    if(changeColorCards.length>0) //change color exists
     {
-        console.log(cards[i]);  
+        playWithColorChangeCard(changeColorCards[0]);
     }
-
-    if(cards.length > 0) //change color exists
+    else //change color doesn't exist
     {
-        removeAndSetTopCard(cards[0],"rival-cards");
-        var color = chooseColor();
-        cardOntop.color = color;
-        changeOpenDeckColor(color);
-        stop = true;
-        //setTimeout(function() {changeOpenDeckColor(color);},2000);
-        changeTurn(1);
-
-    }
-    if(stop === false) //change color doesn't exist
-    {
-        cards = getCardsFromRivalArrbByValue("stop");
-
-        console.log ("cards after stop:");
-        for (var i =0; i<cards.length;i++)
+        var stopCards = getCardsFromRivalArrbByValue("stop");
+        if(stopCards.length > 0) 
         {
-            console.log(cards[i]);  
+            goodCardFound =findSpcialCardWithSameColor(stopCards);
         }
-
-        if(cards.length > 0) 
+        if(!goodCardFound) // stop with the same color wasn't found
         {
-            for (var i =0; i<cards.length;i++)
+            var takiCards = getCardsFromRivalArrbByValue("taki");
+
+            if(takiCards.length > 0)
             {
-                if(cards[i].color === cardOntop.color) //stop with the same color exists
-                {
-                    removeAndSetTopCard(cards[i],"rival-cards");
-                    changeTurn(2);
-                    stop = true;
-                    break;
-                }
+                goodCardFound = findSpcialCardWithSameColor(takiCards);            
             }
-            
-
-        } 
-        if(stop === false) //stop with the same color doesn't exist
-        {
-            cards = getCardsFromRivalArrbByValue("taki");
-
-            console.log ("cards after change taki:");
-            for (var i =0; i<cards.length;i++)
+            if(!goodCardFound) // taki with the same color wasn't found
             {
-                console.log(cards[i]);  
-            }
-            if(cards.length > 0)
-            {
-                for (var i =0; i<cards.length;i++)
+                var sameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
+                if(sameColorCards.length > 0) //a number with the same color exists
                 {
-                    if(cards[i].color === cardOntop.color)//taki with the same color exists
-                    {
-                        removeAndSetTopCard(cards[i],"rival-cards");
-                        console.log("Taki - rival");
-                        //findAllCardWithSameColor(players[i], cardOntop.color);
-                        changeTurn(1);
-                        stop = true;
-                        break;
-                    }
-                }
-                
-            }
-            if(stop === false)//taki with the same color doesn't exist
-            {
-                cards = getCardsFromRivalArrbByColor(cardOntop.color);
-
-                console.log ("cards after number same color color:");
-                for (var i =0; i<cards.length;i++)
-                {
-                    console.log(cards[i]);  
-                }
-
-                if(cards.length > 0) //a number with the same color exists
-                {
-                    removeAndSetTopCard(cards[0],"rival-cards");
-                    stop = true;
+                    removeAndSetTopCard(sameColorCards[0],"rival-cards");
+                    goodCardFound = true;
                     changeTurn(1);
                 }
-                if (stop ===false) //a number with the same color doesn't exist
+                if (!goodCardFound) //a number with the same color doesn't exist
                 {
-                    cards = getCardsFromRivalArrbByValue(cardOntop.value);
-
-                    console.log ("cards after same number:");
-                    for (var i =0; i<cards.length;i++)
+                    var sameValuecards = getCardsFromRivalArrbByValue(cardOntop.value);
+                    if(sameValuecards.length > 0) //the same number exists
                     {
-                        console.log(cards[i]);  
-                    }
-
-                    if(cards.length > 0) //the same number exists
-                    {
-                        removeAndSetTopCard(cards[0],"rival-cards");
-                        isSpecialCard(cards[0]);
-                        stop = true;
-                        changeTurn(1);
+                        removeAndSetTopCard(sameValuecards[0],"rival-cards");
+                        isSpecialCard(sameValuecards[0]);
+                        goodCardFound = true;
                     }
                     else //the same number doesn't exist
                     {
                         addCardToPlayersArrAndDom();
                     }
                 }
-            }
-
+            }  
         }
-       
     }
     printall();
-   
 }
 
-
-function findAllCardWithSameColor(playerArr, color)
+function findSpcialCardWithSameColor(cards)
 {
-    for(var i in playerArr)
+    var goodCardFound = false;
+    for (var i =0; i<cards.length;i++)
     {
-        if(playerArr[k].color === color)
+        if(cards[i].color === cardOntop.color)
         {
-            setTimeout(function()
-            { 
-                removeAndSetTopCard(playerArr[k],"rival-cards");
+            removeAndSetTopCard(cards[i],"rival-cards");
+            if(cards[i].value === "stop")
+            {
+                changeTurn(2);
             }
-            ,2000);
+            else
+            {
+                if(cards[i].value === "taki")
+                {
+                    console.log("Taki - rival");
+                    putAllCardsWithSameColorOfTaki();
+                }
+                changeTurn(1);
+            }     
+            goodCardFound = true;
+            break;
         }
+    }
+    return goodCardFound;
+}
+
+function putAllCardsWithSameColorOfTaki()
+{
+    var SameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
+    for (let key in SameColorCards)
+    {
+        var card = SameColorCards[key];
+        new Promise(function (resolve) {
+            setTimeout(function() {
+                removeAndSetTopCard(card,"rival-cards");
+                resolve();
+            }, 2000);
+        });
     }
 }
 
@@ -168,4 +127,13 @@ function chooseColor()
 {
     var color = Math.floor(Math.random() * 4);
     return cardColors[color];
+}
+
+function playWithColorChangeCard(card)
+{
+    removeAndSetTopCard(card, "rival-cards");
+    var color = chooseColor();
+    cardOntop.color = color;
+    setTimeout(function(){changeOpenDeckColor(color);},2000);
+    changeTurn(1);
 }
