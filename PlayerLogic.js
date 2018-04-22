@@ -94,6 +94,7 @@ function isSpecialCard(card)
     {
         //openTaki = true;
         console.log("open taki");
+        changeTurn(1);
     }
     else
     {
