@@ -23,7 +23,6 @@ function addCardToPlayersArrAndDom()
         addCardToPlayersDom("rival","rival-cards",index);
 
     }
-    //resizeCards();
     changeTurn(1);
 }
 
@@ -55,16 +54,26 @@ function checkCard(elemntClassName, card, cardOntop)
 {
     if(elemntClassName === "player-cards")
     {
-        // check color 
-        if(card.color === cardOntop.color ||card.value === cardOntop.value || card.value === "change_colorful")
-        {
-            removeAndSetTopCard(card,elemntClassName);
-            isSpecialCard(card);
-            
-         }
+        if(!openTaki)
+        { 
+            if(card.color === cardOntop.color ||card.value === cardOntop.value || card.value === "change_colorful")
+            {
+                removeAndSetTopCard(card,elemntClassName);
+                isSpecialCard(card);
+                
+            }
+            else
+            {
+                console.log("wrong!");
+            }
+        }
         else
         {
-            console.log("wrong!");
+            if(card.color === cardOntop.color)
+            {
+                removeAndSetTopCard(card,elemntClassName);
+                isSpecialCard(card);
+            }
         }
     }
 }
@@ -84,21 +93,33 @@ function isSpecialCard(card)
         waitingForPlayer = true;
         console.log("choose a color");
         showChooseAColorWindow();
+        if(openTaki)
+        {
+            closeButton("deck","takiButton");
+            openTaki = false;
+        }
     }
     else if(card.value === "stop")
     {
-        changeTurn(2);
+        if(!openTaki)
+        {
+            changeTurn(2);
+        }
     }
     else if(card.value === "taki")
     {
-        if(turnIndex!== player)
+        if(!openTaki)
         {
-            findSpcialCardWithSameColor(takiCards);    
-            changeTurn(1);    
+            if(turnIndex!== player)
+            {
+                var takiCards =getCardsFromRivalArrbByValue("taki")
+                findSpcialCardWithSameColor(takiCards);    
+                changeTurn(1);    
+            }
+            console.log("open taki");
+            openTaki = true;
+            createTakiButton();
         }
-        console.log("open taki");
-        openTaki = true;
-        createTakiButton();
     }
     else
     {

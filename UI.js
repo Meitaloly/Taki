@@ -108,7 +108,7 @@ function showChooseAColorWindow()
         button.className = cardColors[i];
         button.onclick = function ()
         {
-            closetButton("deck",colorWindow.id);
+            closeButton("deck",colorWindow.id);
             cardOntop.color = this.className;
             changeOpenDeckColor(this.className);
             changeTurn(1);
@@ -129,15 +129,16 @@ function createTakiButton()
     var deckElement = document.getElementsByClassName("deck")[0];
     var takiButton = document.createElement('button');
     takiButton.id = "takiButton";
+    takiButton.textContent = "I'm done!";
     deckElement.appendChild(takiButton);
     takiButton.onclick = function(){
-        closetButton("deck",takiButton.id);
+        closeButton("deck",takiButton.id);
         openTaki=false;
         changeTurn(1);
     }
 }
 
-function closetButton(parentName,childId)
+function closeButton(parentName,childId)
 {
     var parent = document.getElementsByClassName(parentName)[0];
     var elementToRemove = document.getElementById(childId);
