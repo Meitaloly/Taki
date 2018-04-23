@@ -2,7 +2,7 @@ var cardColors = {0:"blue", 1:"red", 2:"green", 3:"yellow"}
 var takenCardsCounter = 0;
 var cardOntop;
 var gameStarted = false;
-var deck;
+var deck = [];
 var players = [];
 var numOfPlayers = 2;
 var turnIndex = numOfPlayers-1;
@@ -78,13 +78,18 @@ function createdeck()
 
 function addCardToPlayersArr(arrToAddTheCard)
 {
+    if(takenCardsCounter === deck.length)
+    {
+        alert("deck is over!");
+        shuffleDeckCards();   
+    }
     console.log(arrToAddTheCard);
     do{
         var index = Math.floor(Math.random() * deck.length);
     }while(deck[index].taken === true);
     deck[index].taken = true;
+    takenCardsCounter++;
     arrToAddTheCard.push(deck[index]);
-
     return index;
 }
 
@@ -144,6 +149,7 @@ function drawOpeningCard()
         var index = Math.floor( Math.random() * deck.length);
     }while(deck[index].taken === true);
     deck[index].taken = true;
+    takenCardsCounter++;
     deck[index].isOnTop = true;
     cardOntop = deck[index];
     return index;
@@ -161,10 +167,10 @@ function setNewCardOnTop(cardToPutOnTop)
 
 function changeTurn(number)
 {
-    console.log("***********");
-    console.log("turnIndex before changing: " + turnIndex);
     if(!openTaki)
-    {   
+    {
+        console.log("***********");
+        console.log("turnIndex before changing: " + turnIndex);   
         turnIndex = (turnIndex + number) % numOfPlayers;
         console.log("turnIndex after changing: " + turnIndex);
         console.log("player index: " + player);
@@ -193,5 +199,17 @@ function resizeCards()
         }
         console.log("-------------end-----------------")
 
+    }
+}
+
+function shuffleDeckCards()
+{
+    for(let key in deck)
+    {
+        if(deck[key].played === true)
+        {
+            deck[key].taken = false;
+            deck[key].played = false;
+        }
     }
 }
