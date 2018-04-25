@@ -9,9 +9,9 @@ var turnIndex = numOfPlayers-1;
 var player = turnIndex;
 var openTaki = false;
 
-
 deck = createdeck();
 shareCardsToPlayers();
+//  showGameDate();
 printall();
 
 function shareCardsToPlayers()
@@ -32,13 +32,36 @@ function shareCardsToPlayers()
     resizeCards();
 }
 
-function createCard(color,value,counterId)
+function checkPlayerWin(num)
+{
+    if(players[turnIndex].length === 0)
+    {
+        //setWinner();
+        console.log("player " + turnIndex + " is the winner!");
+    }
+    else
+    {
+        changeTurn(num);
+    }
+}
+
+function checkTopCard()
+{
+    var nextTurn =1;
+    if(cardOntop.value === "stop")
+    {
+        nextTurn = 2 ;
+    }
+    return nextTurn;
+}
+
+function createCard(color,value,counterId,specialCard)
 {
     this.color = color;
     this.value = value;
     this.taken = false;
-    this.isOnTop = false;
     this.played = false;
+    this.specialCard =specialCard;
     this.cardId = counterId;
     this.imgSourceFront = getCardSource(value,color);
     this.imgSourceBack = "cards/card_back.png";
@@ -55,20 +78,20 @@ function createdeck()
         {
             if(j!==2)
             {
-                deck.push(new createCard(cardColors[i],j,cardIdCounter));
+                deck.push(new createCard(cardColors[i],j,cardIdCounter,false));
                 cardIdCounter++;
-                deck.push(new createCard(cardColors[i],j,cardIdCounter));
+                deck.push(new createCard(cardColors[i],j,cardIdCounter,false));
                 cardIdCounter++;
             }
         }
         for(var j = 0; j < 2; j++)
         {
-            deck.push(new createCard(cardColors[i],"taki",cardIdCounter));
+            deck.push(new createCard(cardColors[i],"taki",cardIdCounter,true));
             cardIdCounter++;
-            deck.push(new createCard(cardColors[i],"stop",cardIdCounter));
+            deck.push(new createCard(cardColors[i],"stop",cardIdCounter,true));
             cardIdCounter++;
         }
-        deck.push(new createCard(null,"change_colorful",cardIdCounter))
+        deck.push(new createCard(null,"change_colorful",cardIdCounter,true))
         cardIdCounter++;
 
     }
@@ -89,8 +112,6 @@ function addCardToPlayersArr(arrToAddTheCard)
     return index;
 }
 
-
-
 function removeCardFromPlayersArr(card)
 {
     console.log("*+*+*+*** turn index is " + turnIndex);
@@ -105,6 +126,28 @@ function removeCardFromPlayersArr(card)
     card.played = true;
 }
 
+function checkAndShuffleDeck(){
+    if(takenCardsCounter === deck.length)
+    {
+        for(var i=0; i<deck.length; i++)
+        {
+            if(deck[i].played)
+            {
+                deck[i].played = false;
+                deck[i].taken = false;
+                takenCardsCounter--;
+            }
+        }
+    }
+}
+
+function printDeckArr()
+{
+    for(var i=0; i<deck.length; i++)
+    {
+        console.log(deck[i]);
+    }
+}
 
 //check
 
@@ -144,18 +187,16 @@ function drawOpeningCard()
 {
     do{
         var index = Math.floor( Math.random() * deck.length);
-    }while(deck[index].taken === true);
+    }while(deck[index].taken || deck[index].specialCard);
     deck[index].taken = true;
-    deck[index].isOnTop = true;
     cardOntop = deck[index];
     return index;
 }
 
 function setNewCardOnTop(cardToPutOnTop)
 {
+    cardOntop.played = true;
     cardOntop = cardToPutOnTop;
-    cardToPutOnTop.isOnTop = true;
-    cardToPutOnTop.played = true;
     showNewCardOnTop(cardToPutOnTop);
     console.log(cardToPutOnTop);
 

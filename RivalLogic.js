@@ -58,7 +58,7 @@ function rivalPlay()
                 {
                     removeAndSetTopCard(sameColorCards[0],"rival-cards");
                     goodCardFound = true;
-                    changeTurn(1);
+                    checkPlayerWin(1);
                 }
                 if (!goodCardFound) //a number with the same color doesn't exist
                 {
@@ -91,7 +91,7 @@ function findSpcialCardWithSameColor(cards)
             removeAndSetTopCard(cards[i],"rival-cards");
             if(cards[i].value === "stop")
             {
-                changeTurn(2);
+                checkPlayerWin(2);
             }
             else if(cards[i].value === "taki")
             {
@@ -107,7 +107,7 @@ function findSpcialCardWithSameColor(cards)
     return goodCardFound;
 }
 
-function putAllCardsWithSameColorOfTaki()
+function    putAllCardsWithSameColorOfTaki()
 {
     console.log("IN putAllCardsWithSameColorOfTaki, TURN INEX IS: "+ turnIndex);
     var SameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
@@ -120,7 +120,7 @@ function putAllCardsWithSameColorOfTaki()
     }
     else
     {
-        changeTurn(1);
+        checkPlayerWin(1);
     }
 
 }
@@ -131,7 +131,7 @@ function doSetTimeout(card, i, length)
     setTimeout(function() { removeAndSetTopCard(card,"rival-cards");
     if (i === length)
     {
-        changeTurn(1);
+        checkPlayerWin(1);
     }}
     , i * 2000);
 }
@@ -148,5 +148,5 @@ function playWithColorChangeCard(card)
     var color = chooseColor();
     cardOntop.color = color;
     setTimeout(function(){changeOpenDeckColor(color);},2000);
-    changeTurn(1);
+    checkPlayerWin(1);
 }
