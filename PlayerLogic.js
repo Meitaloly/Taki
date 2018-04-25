@@ -71,6 +71,8 @@ function checkCard(elemntClassName, card, cardOntop)
 
 function removeAndSetTopCard(card, elemntClassName)
 {
+    console.log("IN removeAndSetTopCard, TURN INEX IS: "+ turnIndex);
+
     removeCardFromPlayersArr(card);
     removeCardFromPlayersDom(card,elemntClassName);
     setNewCardOnTop(card);

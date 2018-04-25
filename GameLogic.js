@@ -9,6 +9,7 @@ var turnIndex = numOfPlayers-1;
 var player = turnIndex;
 var openTaki = false;
 
+
 deck = createdeck();
 shareCardsToPlayers();
 printall();
@@ -92,6 +93,7 @@ function addCardToPlayersArr(arrToAddTheCard)
 
 function removeCardFromPlayersArr(card)
 {
+    console.log("*+*+*+*** turn index is " + turnIndex);
     for(var key in players[turnIndex])
     {
         if(players[turnIndex][key].cardId === card.cardId)
@@ -161,6 +163,7 @@ function setNewCardOnTop(cardToPutOnTop)
 
 function changeTurn(number)
 {
+    
     console.log("***********");
     console.log("turnIndex before changing: " + turnIndex);
     if(!openTaki)

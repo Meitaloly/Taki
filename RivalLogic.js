@@ -77,6 +77,7 @@ function rivalPlay()
             }  
         }
     }
+    console.log("**********Rival cards after his turn: ");
     printall();
 }
 
@@ -92,14 +93,12 @@ function findSpcialCardWithSameColor(cards)
             {
                 changeTurn(2);
             }
-            else
+            else if(cards[i].value === "taki")
             {
-                if(cards[i].value === "taki")
-                {
-                    console.log("Taki - rival");
-                    putAllCardsWithSameColorOfTaki();
-                }
-                changeTurn(1);
+                console.log("Taki - rival");
+                console.log("IN findSpcialCardWithSameColor, TURN INEX IS: "+ turnIndex);
+                putAllCardsWithSameColorOfTaki();
+                
             }     
             goodCardFound = true;
             break;
@@ -110,17 +109,31 @@ function findSpcialCardWithSameColor(cards)
 
 function putAllCardsWithSameColorOfTaki()
 {
+    console.log("IN putAllCardsWithSameColorOfTaki, TURN INEX IS: "+ turnIndex);
     var SameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
-    for (let key in SameColorCards)
+    if(SameColorCards.length > 0)
     {
-        var card = SameColorCards[key];
-        new Promise(function (resolve) {
-            setTimeout(function() {
-                removeAndSetTopCard(card,"rival-cards");
-                resolve();
-            }, 2000);
-        });
+        for (var i = 0 ; i< SameColorCards.length; i++)
+        {
+            doSetTimeout(SameColorCards[i], i+1, SameColorCards.length );
+        }
     }
+    else
+    {
+        changeTurn(1);
+    }
+
+}
+
+function doSetTimeout(card, i, length)
+{
+    console.log("IN doSetTimeout, TURN INEX IS: "+ turnIndex);
+    setTimeout(function() { removeAndSetTopCard(card,"rival-cards");
+    if (i === length)
+    {
+        changeTurn(1);
+    }}
+    , i * 2000);
 }
 
 function chooseColor()
