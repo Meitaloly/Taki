@@ -29,7 +29,7 @@ body{
 }
 
 .card {
-    height: 190px;
+    height: 180px;
     width: 120px;
     display: inline-block;
     transition: all .3s ease-in-out;  
@@ -74,4 +74,13 @@ button.red, button.blue, button.green, button.yellow{
 .player0, .player1{
     width: 50%;
     float:left;
+}
+
+.statistics{
+    background: lightgray;
+    margin-top:20px;
+}
+
+#col1{
+    width:40%;
 }

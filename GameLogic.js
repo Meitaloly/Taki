@@ -11,7 +11,9 @@ var openTaki = false;
 
 deck = createdeck();
 shareCardsToPlayers();
-//  showGameDate();
+showdeck();
+
+//  showGameData();
 printall();
 
 function shareCardsToPlayers()
@@ -21,7 +23,6 @@ function shareCardsToPlayers()
         players[i] = new Array();
         if(i == numOfPlayers-1)
         {
-            showdeck();
             players[i] = shareCards("player");
         }
         else
@@ -216,26 +217,5 @@ function changeTurn(number)
         {
             setTimeout(rivalPlay,2000);
         }
-    }
-}
-
-function resizeCards()
-{
-    var cardWidth = 120;
-    var cardSpace = 70;
-
-    for(var i=0; i<numOfPlayers; i++)
-    {
-        console.log("-------------start---------------")
-        for(var key in players[i])
-        {
-            console.log("player " + i + ": " + players[i][key].value + " " + players[i][key].color);
-            var card = document.getElementById(players[i][key].cardId);
-            if(card) {
-                card.style.marginLeft = -(cardWidth-cardSpace);
-            }
-        }
-        console.log("-------------end-----------------")
-
     }
 }

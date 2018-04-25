@@ -1,15 +1,15 @@
 function shareCards(playerType) {
-    var containerElement = document.getElementsByClassName('container')[0];
-    var cardsContainerElement = document.createElement('div');
-    var cardsContainerClassName = playerType + "-" + "container";
-    cardsContainerElement.className = cardsContainerClassName;
-    containerElement.appendChild(cardsContainerElement);
+    // var containerElement = document.getElementsByClassName('container')[0];
+    // var cardsContainerElement = document.createElement('div');
+    // var cardsContainerClassName = playerType + "-" + "container";
+    // cardsContainerElement.className = cardsContainerClassName;
+    // containerElement.appendChild(cardsContainerElement);
 
-    var elementToAdd = document.createElement('div');
-    var elementClassName = playerType + "-" + "cards";
-    elementToAdd.className = elementClassName;
-    elementToAdd.id = playerType;
-    cardsContainerElement.appendChild(elementToAdd);
+    // var elementToAdd = document.createElement('div');
+     var elementClassName = playerType + "-" + "cards";
+    // elementToAdd.className = elementClassName;
+    // elementToAdd.id = playerType;
+    // cardsContainerElement.appendChild(elementToAdd);
 
     var cards = [];
     for (var i = 0; i < 8; i++) {
@@ -51,35 +51,15 @@ function removeCardFromPlayersDom(card, elemntClassName) {
 }
 
 function showdeck() {
-    var containerElement = document.getElementsByClassName('container')[0];
-    var deckDiv = document.createElement('div');
-    deckDiv.className = "deck";
-    containerElement.appendChild(deckDiv);
-    var deckImage = document.createElement('img');
-    deckImage.className = 'card';
 
-    deckImage.src = "cards/card_back.png";
-    deckImage.alt = "deck Card";
-    deckDiv.appendChild(deckImage);
     var elementToAddTo = document.getElementsByClassName("player-cards");
+    var deckImage = document.getElementsByClassName("card");
     deckImage.onclick = function () {
         checkStatus();
     };
-
     var index = drawOpeningCard();
-
-    var newImage = document.createElement('img');
-    newImage.src = deck[index].imgSourceFront;
-    newImage.alt = 'open deck card';
-    newImage.className = "card";
-    newImage.id = "opendeck";
-    var deckElement = document.getElementsByClassName("deck")[0];
-    deckElement.appendChild(newImage);
-
-    var deckStatus = document.createElement('span');
-    deckStatus.className = "deckStatus";
-    deckStatus.textContent = "Cards in deck:";
-    deckElement.appendChild(deckStatus);
+    var openDeckImg = document.getElementById("opendeck");
+    openDeckImg.src = deck[index].imgSourceFront;
 }
 
 
@@ -137,4 +117,25 @@ function closetButton(parentName, childId) {
     var parent = document.getElementsByClassName(parentName)[0];
     var elementToRemove = document.getElementById(childId);
     parent.removeChild(elementToRemove);
+}
+
+function resizeCards()
+{
+    var cardWidth = 120;
+    var cardSpace = 70;
+
+    for(var i=0; i<numOfPlayers; i++)
+    {
+        console.log("-------------start---------------")
+        for(var key in players[i])
+        {
+            console.log("player " + i + ": " + players[i][key].value + " " + players[i][key].color);
+            var card = document.getElementById(players[i][key].cardId);
+            if(card) {
+                card.style.marginLeft = -(cardWidth-cardSpace);
+            }
+        }
+        console.log("-------------end-----------------")
+
+    }
 }
