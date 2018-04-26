@@ -84,3 +84,7 @@ button.red, button.blue, button.green, button.yellow{
 #col1{
     width:40%;
 }
+
+#timer{
+    display: none;
+}

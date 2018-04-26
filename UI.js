@@ -6,7 +6,7 @@ function shareCards(playerType) {
     // containerElement.appendChild(cardsContainerElement);
 
     // var elementToAdd = document.createElement('div');
-     var elementClassName = playerType + "-" + "cards";
+    var elementClassName = playerType + "-" + "cards";
     // elementToAdd.className = elementClassName;
     // elementToAdd.id = playerType;
     // cardsContainerElement.appendChild(elementToAdd);
@@ -53,19 +53,27 @@ function removeCardFromPlayersDom(card, elemntClassName) {
 function showdeck() {
 
     var elementToAddTo = document.getElementsByClassName("player-cards");
-    var deckImage = document.getElementsByClassName("card");
+    var deckImage = document.getElementById("backDeck");
+    //var deckImage = document.getElementsByClassName("card");
     deckImage.onclick = function () {
         checkStatus();
     };
     var index = drawOpeningCard();
     var openDeckImg = document.getElementById("opendeck");
     openDeckImg.src = deck[index].imgSourceFront;
+    setNumOfCardsText();
+}
+
+function setNumOfCardsText()
+{
+    var deckStatusElement = document.getElementById("deckStatus");
+    deckStatusElement.innerText = "Cards in deck: " + (deck.length - takenCardsCounter);
+
 }
 
 
-function showGameDate()
-{
-    
+function showGameDate() {
+
 }
 
 
@@ -109,8 +117,9 @@ function createTakiButton() {
     takiButton.onclick = function () {
         closetButton("deck", takiButton.id);
         openTaki = false;
-        checkPcheckTopCard()};
-    }
+        checkPlayerWin(checkTopCard())
+    };
+}
 
 
 function closetButton(parentName, childId) {
@@ -119,20 +128,17 @@ function closetButton(parentName, childId) {
     parent.removeChild(elementToRemove);
 }
 
-function resizeCards()
-{
+function resizeCards() {
     var cardWidth = 120;
     var cardSpace = 70;
 
-    for(var i=0; i<numOfPlayers; i++)
-    {
+    for (var i = 0; i < numOfPlayers; i++) {
         console.log("-------------start---------------")
-        for(var key in players[i])
-        {
+        for (var key in players[i]) {
             console.log("player " + i + ": " + players[i][key].value + " " + players[i][key].color);
             var card = document.getElementById(players[i][key].cardId);
-            if(card) {
-                card.style.marginLeft = -(cardWidth-cardSpace);
+            if (card) {
+                card.style.marginLeft = -(cardWidth - cardSpace);
             }
         }
         console.log("-------------end-----------------")

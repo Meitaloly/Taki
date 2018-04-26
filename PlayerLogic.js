@@ -1,9 +1,11 @@
 function checkStatus() {
-    var isPlayerTurn = checkPlayerTurn();
-    if (isPlayerTurn) {
-        var hasCardsToUse = checkPlayerCards();
-        if (!hasCardsToUse) {
-            addCardToPlayersArrAndDom()
+    if (!gameOver) {
+        var isPlayerTurn = checkPlayerTurn();
+        if (isPlayerTurn) {
+            var hasCardsToUse = checkPlayerCards();
+            if (!hasCardsToUse) {
+                addCardToPlayersArrAndDom();
+            }
         }
     }
 }
@@ -18,8 +20,8 @@ function addCardToPlayersArrAndDom() {
         addCardToPlayersDom("rival", "rival-cards", index);
 
     }
-    //resizeCards();
-    changeTurn(1);
+    setNumOfCardsText();
+    checkPlayerWin(1);
 }
 
 function checkPlayerTurn() {
@@ -85,9 +87,9 @@ function isSpecialCard(card) {
     else if (card.value === "taki") {
         if (turnIndex !== player) {
             putAllCardsWithSameColorOfTaki();
-            checkPlayerWin(1);
+            checkPlayerWin(checkTopCard());
         }
-        else{
+        else {
             if (!openTaki) {
                 createTakiButton();
                 console.log("open taki");
