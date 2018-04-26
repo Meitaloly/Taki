@@ -102,7 +102,6 @@ function putAllCardsWithSameColorOfTaki() {
     else
     {
         checkPlayerWin(1);
-
     }
 }
 
