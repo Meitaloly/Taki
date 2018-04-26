@@ -84,8 +84,6 @@ function findSpcialCardWithSameColor(cards) {
                 console.log("Taki - rival");
                 console.log("IN findSpcialCardWithSameColor, TURN INEX IS: " + turnIndex);
                 putAllCardsWithSameColorOfTaki();
-                //checkPlayerWin(checkTopCard());
-
             }
             goodCardFound = true;
             break;
