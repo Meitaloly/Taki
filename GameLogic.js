@@ -52,7 +52,6 @@ function gameTimer() {
     };
 }
 
-//  showGameData();
 printall();
 
 function shareCardsToPlayers() {

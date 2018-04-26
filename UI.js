@@ -1,16 +1,5 @@
 function shareCards(playerType) {
-    // var containerElement = document.getElementsByClassName('container')[0];
-    // var cardsContainerElement = document.createElement('div');
-    // var cardsContainerClassName = playerType + "-" + "container";
-    // cardsContainerElement.className = cardsContainerClassName;
-    // containerElement.appendChild(cardsContainerElement);
-
-    // var elementToAdd = document.createElement('div');
     var elementClassName = playerType + "-" + "cards";
-    // elementToAdd.className = elementClassName;
-    // elementToAdd.id = playerType;
-    // cardsContainerElement.appendChild(elementToAdd);
-
     var cards = [];
     for (var i = 0; i < 8; i++) {
         var index = addCardToPlayersArr(cards);
@@ -54,7 +43,6 @@ function showdeck() {
 
     var elementToAddTo = document.getElementsByClassName("player-cards");
     var deckImage = document.getElementById("backDeck");
-    //var deckImage = document.getElementsByClassName("card");
     deckImage.onclick = function () {
         checkStatus();
     };
@@ -70,12 +58,6 @@ function setNumOfCardsText()
     deckStatusElement.innerText = "Cards in deck: " + (deck.length - takenCardsCounter);
 
 }
-
-
-function showGameDate() {
-
-}
-
 
 function showNewCardOnTop(cardToPutOnTop) {
     var cardOnTopElement = document.getElementById("opendeck");
@@ -120,7 +102,6 @@ function createTakiButton() {
         checkPlayerWin(checkTopCard())
     };
 }
-
 
 function closetButton(parentName, childId) {
     var parent = document.getElementsByClassName(parentName)[0];
