@@ -93,8 +93,9 @@ function changeOpenDeckColor(color) {
 
 function createTakiButton() {
     var deckElement = document.getElementsByClassName("deck")[0];
-    var takiButton = document.createElement('button');
+    var takiButton = document.createElement('img');
     takiButton.id = "takiButton";
+    takiButton.src = "cards/done.png";
     deckElement.appendChild(takiButton);
     takiButton.onclick = function () {
         closetButton("deck", takiButton.id);
