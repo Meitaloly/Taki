@@ -97,6 +97,7 @@ function putAllCardsWithSameColorOfTaki() {
     console.log("IN putAllCardsWithSameColorOfTaki, TURN INEX IS: " + turnIndex);
     var SameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
     if (SameColorCards.length > 0) {
+        openTaki = true;
         var takiTime = setInterval(function () { newTimeOut(SameColorCards, takiTime) }, 1000);
     }
     else
@@ -112,6 +113,7 @@ function newTimeOut(arrOfSameCards, takiTime) {
     }
     else {
         clearTimeout(takiTime);
+        openTaki = false;
         arrIndex = 0;
         checkPlayerWin(1);
     }

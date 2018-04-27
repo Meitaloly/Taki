@@ -46,9 +46,11 @@ function checkPlayerCards() {
 function checkCard(elemntClassName, card, cardOntop) {
     if (elemntClassName === "player-cards") {
         if (openTaki) {
-            if (card.color === cardOntop.color) {
-                removeAndSetTopCard(card, elemntClassName);
-                // isSpecialCard(card);
+            if (turnIndex === player) {
+                if (card.color === cardOntop.color) {
+                    removeAndSetTopCard(card, elemntClassName);
+                    // isSpecialCard(card);
+                }
             }
         }
         else {
