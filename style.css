@@ -88,3 +88,18 @@ button.red, button.blue, button.green, button.yellow{
 #timer{
     display: none;
 }
+
+#quitButton {
+    height: 20px;
+    width: 80px;
+}
+
+.deckContainer{
+    align-items: center;
+    justify-content: space-around;
+    display: flex;
+}
+
+#deckStatus {
+    color: white;
+}

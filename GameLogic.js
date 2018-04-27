@@ -11,13 +11,25 @@ var player = turnIndex;
 var openTaki = false;
 var numOfTurns = 0;
 var turnTime = [];
+var quitButtonClicked = false;
 
+setQuitButtonLogic();
 deck = createdeck();
 shareCardsToPlayers();
 showdeck();
 var timer = gameTimer();
 var date = new Date();
 var startTime = timer.getTime();
+
+function setQuitButtonLogic()
+{
+    var quitButton = document.getElementById("quitButton");
+    quitButton.onclick = function () {
+        quitButtonClicked = true;
+        stopTheGame();
+
+    };
+}
 
 function gameTimer() {
     var sec = 00;
@@ -69,25 +81,42 @@ function shareCardsToPlayers() {
 
 function checkPlayerWin(num) {
     if (players[turnIndex].length === 0) {
-        console.log("player " + turnIndex + " is the winner!");
-        stopTheGame();
+        //console.log("player " + turnIndex + " is the winner!");
+        setTimeout(stopTheGame, 1000);
     }
-    else {
-        if (players[turnIndex].length === 1) {
+    else
+    {
+        if (players[turnIndex].length === 1) 
             oneCardLeftPerPlayer[turnIndex]++;
-        }
         changeTurn(num);
     }
+  
 }
 
 function stopTheGame() {
     timer.stopGameTimer();
     gameOver = true;
-    console.log("number of turns in the game: " + numOfTurns);
-    console.log("the game time is: " + timer.getTime());
-    console.log("one card for player 0 :" + oneCardLeftPerPlayer[0]);
-    console.log("one card for player 1 :" + oneCardLeftPerPlayer[1]);
-    console.log("avg of turn time is: " + findAvgOfTurnTime());
+    
+    //var elementToAddTo = document.getElementsByClassName(elementClassName)[0];
+    var statsDiv = document.createElement('div');
+    if (quitButtonClicked)
+    {
+        statsDiv.innerHTML += "Player 0 is the winner!<br />";
+    }
+    else
+    {
+        statsDiv.innerHTML += "Player " + turnIndex + " is the winner!<br />";
+    }
+    
+    statsDiv.innerHTML += "Number of turns in the game: " + numOfTurns + "<br />";
+    statsDiv.innerHTML += "The game time is: " + timer.getTime() + "<br />";
+    statsDiv.innerHTML += "Player 0 had one card " + oneCardLeftPerPlayer[0] + " times <br />";
+    statsDiv.innerHTML += "Player 1 had one card " + oneCardLeftPerPlayer[1] + " times <br />";
+    statsDiv.innerHTML += "Avg of turns time is: " + findAvgOfTurnTime();
+    statsDiv.style.color = "white";
+    var container = document.getElementById("mainContainer");
+    container.style.visibility = "hidden";
+    document.body.appendChild(statsDiv);
 }
 
 function findAvgOfTurnTime()
@@ -174,6 +203,7 @@ function removeCardFromPlayersArr(card) {
 
 function checkAndShuffleDeck() {
     if (takenCardsCounter === deck.length) {
+        alert("Shuffling!");
         for (var i = 0; i < deck.length; i++) {
             if (deck[i].played) {
                 deck[i].played = false;
@@ -245,6 +275,7 @@ function changeTurn(number) {
     if (!openTaki) {
         if (number !== 2) {
             setTurnTime(endTime);
+            rotateArrow();
         }
         else{
             turnTime.push(0);
@@ -258,6 +289,13 @@ function changeTurn(number) {
             setTimeout(rivalPlay, 2000);
         }
     }
+    
+}
+
+function rotateArrow()
+{
+    var arrow = document.getElementById("arrow");
+    arrow.style.transform += "rotate(180deg)";
 }
 
 function setTurnTime(endTime) {

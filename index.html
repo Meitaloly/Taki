@@ -7,7 +7,8 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container", id = "mainContainer">
+        <button id = "quitButton">Quit</button> 
         <div id="timer">
         </div>
         <div class="rival-container">
@@ -15,11 +16,15 @@
             </div>
         </div>
         <div class="deckContainer">
+            
+            <img class = "arrowImage" id = "arrow" src ="cards/new_arrow.png"> 
+            
             <div class="deck">
-                <span id="deckStatus"></span>
+                
                 <img class="card" id="backDeck" src="cards/card_back.png" alt="deck Card">
                 <img alt="open deck card" class="card" id="opendeck">
             </div>
+            <span id="deckStatus"></span>
         </div>
         <div class="player-container">
             <div class="player-cards" id="player">

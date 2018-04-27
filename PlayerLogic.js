@@ -3,7 +3,11 @@ function checkStatus() {
         var isPlayerTurn = checkPlayerTurn();
         if (isPlayerTurn) {
             var hasCardsToUse = checkPlayerCards();
-            if (!hasCardsToUse) {
+            if (hasCardsToUse)
+            {
+                 alert("There is a card you can use!");
+            }
+            else if (!hasCardsToUse && !openTaki) {
                 addCardToPlayersArrAndDom();
             }
         }
@@ -59,7 +63,8 @@ function checkCard(elemntClassName, card, cardOntop) {
                 isSpecialCard(card);
             }
             else {
-                console.log("wrong!");
+                if (turnIndex === player)//console.log("wrong!");
+                    alert("Try again!");
             }
         }
     }
@@ -82,9 +87,13 @@ function isSpecialCard(card) {
     }
     else if (card.value === "stop") {
         if (players[turnIndex].length === 0) {
-            console.log("you have to pull another card!");
+            stopTheGame();
         }
-        changeTurn(2);
+        else
+        {
+            changeTurn(2);
+        }
+        
     }
     else if (card.value === "taki") {
         if (turnIndex !== player) {
