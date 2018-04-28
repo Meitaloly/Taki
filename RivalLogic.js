@@ -45,25 +45,32 @@ function rivalPlay() {
                 }
                 if (!goodCardFound) // taki with the same color wasn't found
                 {
-                    var sameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
-                    if (sameColorCards.length > 0) //a number with the same color exists
+                    var plusCards = getCardsFromRivalArrbByValue("plus");
+                    if(plusCards.length > 0)
                     {
-                        removeAndSetTopCard(sameColorCards[0], "rival-cards");
-                        goodCardFound = true;
-                        checkPlayerWin(1);
+                        goodCardFound = findSpcialCardWithSameColor(plusCards);
                     }
-                    if (!goodCardFound) //a number with the same color doesn't exist
-                    {
-                        var sameValuecards = getCardsFromRivalArrbByValue(cardOntop.value);
-                        if (sameValuecards.length > 0) //the same number exists
+                    if (!goodCardFound) {
+                        var sameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
+                        if (sameColorCards.length > 0) //a number with the same color exists
                         {
-                            removeAndSetTopCard(sameValuecards[0], "rival-cards");
-                            isSpecialCard(sameValuecards[0]);
+                            removeAndSetTopCard(sameColorCards[0], "rival-cards");
                             goodCardFound = true;
+                            checkPlayerWin(1);
                         }
-                        else //the same number doesn't exist
+                        if (!goodCardFound) //a number with the same color doesn't exist
                         {
-                            addCardToPlayersArrAndDom();
+                            var sameValuecards = getCardsFromRivalArrbByValue(cardOntop.value);
+                            if (sameValuecards.length > 0) //the same number exists
+                            {
+                                removeAndSetTopCard(sameValuecards[0], "rival-cards");
+                                isSpecialCard(sameValuecards[0]);
+                                goodCardFound = true;
+                            }
+                            else //the same number doesn't exist
+                            {
+                                addCardToPlayersArrAndDom();
+                            }
                         }
                     }
                 }
@@ -81,6 +88,10 @@ function findSpcialCardWithSameColor(cards) {
             removeAndSetTopCard(cards[i], "rival-cards");
             if (cards[i].value === "stop") {
                 checkPlayerWin(2);
+            }
+            else if(cards[i].value === "plus")
+            {
+                changeTurn(numOfPlayers);
             }
             else if (cards[i].value === "taki") {
                 console.log("Taki - rival");
@@ -141,6 +152,6 @@ function playWithColorChangeCard(card) {
     removeAndSetTopCard(card, "rival-cards");
     var color = chooseColor();
     cardOntop.color = color;
-    setTimeout(function() { changeOpenDeckColor(color); }, 1000);
-    setTimeout(function() { checkPlayerWin(1);},1000);
+    setTimeout(function () { changeOpenDeckColor(color); }, 1000);
+    setTimeout(function () { checkPlayerWin(1); }, 1000);
 }

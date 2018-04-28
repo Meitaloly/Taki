@@ -1,6 +1,7 @@
 body{
     background-color:green;
     display: flex;
+    justify-content: center;
 }
 
 .container {
@@ -85,13 +86,27 @@ button.red, button.blue, button.green, button.yellow{
     width:40%;
 }
 
-#timer{
+#timer, #statsContainer{
     display: none;
+}
+
+.container-quit-button{
+    display: flex;
+    justify-content: flex-end;
 }
 
 #quitButton {
     height: 20px;
     width: 80px;
+    background-color: white; 
+    color: red; 
+    border: 2px solid red;
+}
+
+#quitButton:hover {
+    background-color: red;
+    color: white;
+    border: 2px solid white;
 }
 
 .deckContainer{

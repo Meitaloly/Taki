@@ -1,7 +1,7 @@
 function shareCards(playerType) {
     var elementClassName = playerType + "-" + "cards";
     var cards = [];
-    for (var i = 0; i < 8; i++) {
+    for (var i = 0; i < numOfCardsForEachPlayer; i++) {
         var index = addCardToPlayersArr(cards);
         addCardToPlayersDom(playerType, elementClassName, index);
     }
@@ -87,6 +87,7 @@ function showChooseAColorWindow() {
 }
 
 function changeOpenDeckColor(color) {
+    changeColorSound.play();
     var openDeck = document.getElementById("opendeck");
     openDeck.src = "cards/" + "change_colorful_" + color + ".png";
 }
@@ -95,7 +96,7 @@ function createTakiButton() {
     var deckElement = document.getElementsByClassName("deck")[0];
     var takiButton = document.createElement('img');
     takiButton.id = "takiButton";
-    takiButton.src = "cards/done.png";
+    takiButton.src = "images/done.png";
     deckElement.appendChild(takiButton);
     takiButton.onclick = function () {
         closetButton("deck", takiButton.id);
@@ -126,4 +127,80 @@ function resizeCards() {
         console.log("-------------end-----------------")
 
     }
+}
+
+function showStats()
+{
+     //var elementToAddTo = document.getElementsByClassName(elementClassName)[0];
+
+     var statsDiv = document.createElement('div');
+
+     var newGameButton = document.createElement('button');
+     newGameButton.textContent ="New Game";
+     newGameButton.style.height = "20px";
+     newGameButton.style.width = "100px";
+     newGameButton.onclick = function() {resetAll();};
+     if (quitButtonClicked) {
+        loserSound.play();
+         statsDiv.innerHTML += "The computer is the winner!<br />";
+         
+     }
+     else 
+     {
+         if(turnIndex === player)
+         {
+            winnerSound.play();
+            statsDiv.innerHTML += "You are the winner!<br />";
+
+         }
+         else
+         {
+             loserSound.play();
+            statsDiv.innerHTML += "The computer is the winner!<br />";
+         }
+         numOfTurns++;
+     }
+ 
+     statsDiv.innerHTML += "Number of turns in the game: " + numOfTurns +
+         "<br /> The game time is: " + timer.getTime() +
+         "<br />Player 1 had one card " + oneCardLeftPerPlayer[0] + " times" +
+         "<br /> Player 2 had one card " + oneCardLeftPerPlayer[1] + " times" +
+         "<br /> Avg of turns time is: " + findAvgOfTurnTime(turnTime,false) + 
+         "<br /> Avg of turns time in all games is: " + findAvgOfTurnTime(avgTurnTimePerGame,true);
+     statsDiv.style.color = "white";
+     statsDiv.style.textAlign = "center";
+     statsDiv.style.fontSize = "20px";
+     var container = document.getElementById("mainContainer");
+     container.style.display = "none";
+
+     var statsContainer = document.getElementsByClassName("stats")[0];
+     statsContainer.appendChild(statsDiv);
+     //document.body.appendChild(statsDiv);
+     statsContainer.appendChild(newGameButton);
+     statsContainer.style.display = "block";
+}
+
+function removeAllElementsFromDom()
+{
+    removeAllChildren("statsContainer");
+    removeAllChildren("rival");
+    removeAllChildren("player");
+
+}
+
+function removeAllChildren(parentId)
+{
+    var parent = document.getElementById(parentId);
+    var currChild = parent.firstChild;
+    while(currChild)
+    {
+        parent.removeChild(currChild);
+        currChild = parent.firstChild;
+    }
+}
+
+function showDomElements()
+{
+    var container = document.getElementById("mainContainer");
+    container.style.display = "";
 }

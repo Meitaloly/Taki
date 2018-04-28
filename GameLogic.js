@@ -13,8 +13,76 @@ var numOfTurns = 0;
 var turnTime = [];
 var quitButtonClicked = false;
 var timer = gameTimer();
-var date = new Date();
 var startTime = timer.getTime();
+var numOfCardsForEachPlayer = 8;
+var wrongSound = new Audio();
+wrongSound.src = "sounds/wrong.mp3";
+var changeColorSound = new Audio();
+changeColorSound.src = "sounds/changeColorSound.mp3";
+var winnerSound = new Audio();
+winnerSound.src = "sounds/winner.mp3";
+var loserSound = new Audio();
+loserSound.src = "sounds/Fail.mp3";
+var avgTurnTimePerGame = [];
+
+
+function resetAll() {
+    removeAllElementsFromDom();
+    resetOneCardLeftPerPlayer();
+     takenCardsCounter = 0;
+     cardOntop = null;
+     gameOver = false;
+     resetDeck(); 
+     resetPlayersArr();
+     
+     
+     turnIndex = numOfPlayers - 1;
+     openTaki = false;
+     numOfTurns = 0;
+     resetTurnTime();
+     quitButtonClicked = false;
+     timer = gameTimer();
+     startTime = timer.getTime();
+    
+    
+    showDomElements();
+    
+    shareCardsToPlayers();
+    showdeck();
+
+}
+
+function resetDeck()
+{
+    for(var i=0;i<deck.length;i++)
+    {
+        deck[i].taken = false;
+        deck[i].played = false;
+    }
+}
+
+function resetPlayersArr()
+{
+    for(var i=0;i<numOfPlayers;i++)
+    {
+        players[i].splice(0,players[i].length);
+    }
+    players.splice(0,numOfPlayers);
+}
+
+function resetOneCardLeftPerPlayer()
+{
+    for(var i=0;i<numOfPlayers;i++)
+    {
+        oneCardLeftPerPlayer[i]=0;
+    }
+}
+
+function resetTurnTime()
+{
+    
+    turnTime.splice(0,turnTime  .length);
+}
 
 startGame();
 
@@ -22,7 +90,7 @@ function startGame() {
     setQuitButtonLogic();
     deck = createdeck();
     shareCardsToPlayers();
-    showdeck(); 
+    showdeck();
 }
 
 
@@ -89,8 +157,8 @@ function checkPlayerWin(num) {
         setTimeout(stopTheGame, 1000);
     }
     else {
-        if (players[turnIndex].length === 1)
-            oneCardLeftPerPlayer[turnIndex]++;
+        // if (players[turnIndex].length === 1)
+        //     oneCardLeftPerPlayer[turnIndex]++;
         changeTurn(num);
     }
 
@@ -100,33 +168,26 @@ function stopTheGame() {
     timer.stopGameTimer();
     gameOver = true;
 
-    //var elementToAddTo = document.getElementsByClassName(elementClassName)[0];
-    var statsDiv = document.createElement('div');
-    if (quitButtonClicked) {
-        statsDiv.innerHTML += "Player 0 is the winner!<br />";
-    }
-    else {
-        statsDiv.innerHTML += "Player " + turnIndex + " is the winner!<br />";
-    }
+    showStats();
 
-    statsDiv.innerHTML += "Number of turns in the game: " + numOfTurns +
-        "<br /> The game time is: " + timer.getTime() +
-        "<br />Player 0 had one card " + oneCardLeftPerPlayer[0] + " times" +
-        "<br /> Player 1 had one card " + oneCardLeftPerPlayer[1] + " times" +
-        "<br /> Avg of turns time is: " + findAvgOfTurnTime();
-    statsDiv.style.color = "white";
-    var container = document.getElementById("mainContainer");
-    container.style.visibility = "hidden";
-    document.body.appendChild(statsDiv);
 }
 
-function findAvgOfTurnTime() {
+function findAvgOfTurnTime(arr, isAllGames) {
     var sum = 0;
-    for (var i = 0; i < turnTime.length; i++) {
-        sum += turnTime[i];
+    if (arr.length !== 0) {
+        for (var i = 0; i < arr.length; i++) {
+            sum += arr[i];
+        }
+        var avgStr = sum / arr.length;
     }
-
-    var avgStr = sum / turnTime.length;
+    else {
+        avgStr = 0;
+    }
+    if(!isAllGames)
+    {
+        avgTurnTimePerGame.push(avgStr);
+    }
+        
     return avgStr;
 }
 function checkTopCard() {
@@ -167,8 +228,10 @@ function createdeck() {
             cardIdCounter++;
             deck.push(new createCard(cardColors[i], "stop", cardIdCounter, true));
             cardIdCounter++;
+            deck.push(new createCard(cardColors[i], "plus", cardIdCounter, true));
+            cardIdCounter++;
         }
-        deck.push(new createCard(null, "change_colorful", cardIdCounter, true))
+        deck.push(new createCard(null, "change_colorful", cardIdCounter, true));
         cardIdCounter++;
 
     }
@@ -267,9 +330,6 @@ function setNewCardOnTop(cardToPutOnTop) {
 }
 
 function changeTurn(number) {
-
-    console.log("***********");
-    console.log("turnIndex before changing: " + turnIndex);
     var endTime = timer.getTime();
     if (!openTaki) {
         if (number !== 2) {
@@ -280,9 +340,12 @@ function changeTurn(number) {
             turnTime.push(0);
         }
         turnIndex = (turnIndex + number) % numOfPlayers;
-        numOfTurns += number;
-        console.log("turnIndex after changing: " + turnIndex);
-        console.log("player index: " + player);
+        if (number === numOfPlayers) {
+            numOfTurns++;
+        }
+        else {
+            numOfTurns += number;
+        }
         startTime = timer.getTime();
         if (turnIndex !== player) {
             setTimeout(rivalPlay, 2000);
@@ -297,26 +360,29 @@ function rotateArrow() {
 }
 
 function setTurnTime(endTime) {
-    var start = startTime.split(":");
-    var startMin = Number(start[0]);
-    startMin = startMin * 60;
-    var startSec = Number(start[1]);
-    var fullStartTimeInSec = startMin + startSec;
+    if (turnIndex === player) {
+        var start = startTime.split(":");
+        var startMin = Number(start[0]);
+        startMin = startMin * 60;
+        var startSec = Number(start[1]);
+        var fullStartTimeInSec = startMin + startSec;
 
-    var end = endTime.split(":");
-    var endMin = Number(end[0]);
-    endMin = endMin * 60;
-    var endSec = Number(end[1]);
-    var fullendTimeInSec = endMin + endSec;
+        var end = endTime.split(":");
+        var endMin = Number(end[0]);
+        endMin = endMin * 60;
+        var endSec = Number(end[1]);
+        var fullendTimeInSec = endMin + endSec;
 
-    var timeInSec = fullendTimeInSec - fullStartTimeInSec;
-    var min = 0;
-    while (timeInSec > 59) {
-        min++;
-        timeInSec -= 60;
+        var timeInSec = fullendTimeInSec - fullStartTimeInSec;
+        var min = 0;
+        while (timeInSec > 59) {
+            min++;
+            timeInSec -= 60;
+        }
+
+        var turnTimeStr = min + ":" + timeInSec;
+
+        turnTime.push(fullendTimeInSec - fullStartTimeInSec);
     }
 
-    var turnTimeStr = min + ":" + timeInSec;
-
-    turnTime.push(fullendTimeInSec - fullStartTimeInSec);
 }

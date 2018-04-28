@@ -3,11 +3,11 @@ function checkStatus() {
         var isPlayerTurn = checkPlayerTurn();
         if (isPlayerTurn) {
             var hasCardsToUse = checkPlayerCards();
-            if (hasCardsToUse)
-            {
-                 alert("There is a card you can use!");
+            if (hasCardsToUse) {
+                wrongSound.play();
             }
             else if (!hasCardsToUse && !openTaki) {
+
                 addCardToPlayersArrAndDom();
             }
         }
@@ -15,7 +15,7 @@ function checkStatus() {
 }
 
 function addCardToPlayersArrAndDom() {
-    checkAndShuffleDeck();
+    
     var index = addCardToPlayersArr(players[turnIndex]);
     if (turnIndex === player) {
         addCardToPlayersDom("player", "player-cards", index);
@@ -24,6 +24,7 @@ function addCardToPlayersArrAndDom() {
         addCardToPlayersDom("rival", "rival-cards", index);
 
     }
+    checkAndShuffleDeck();
     setNumOfCardsText();
     checkPlayerWin(1);
 }
@@ -64,7 +65,7 @@ function checkCard(elemntClassName, card, cardOntop) {
             }
             else {
                 if (turnIndex === player)//console.log("wrong!");
-                    alert("Try again!");
+                    wrongSound.play();
             }
         }
     }
@@ -76,7 +77,9 @@ function removeAndSetTopCard(card, elemntClassName) {
     removeCardFromPlayersArr(card);
     removeCardFromPlayersDom(card, elemntClassName);
     setNewCardOnTop(card);
-
+    if (players[turnIndex].length === 1) {
+        oneCardLeftPerPlayer[turnIndex]++;
+    }
 }
 
 function isSpecialCard(card) {
@@ -87,13 +90,12 @@ function isSpecialCard(card) {
     }
     else if (card.value === "stop") {
         if (players[turnIndex].length === 0) {
-            stopTheGame();
+            alert("You have to take another card!");
         }
-        else
-        {
-            changeTurn(2);
-        }
-        
+
+        changeTurn(2);
+
+
     }
     else if (card.value === "taki") {
         if (turnIndex !== player) {
@@ -107,6 +109,10 @@ function isSpecialCard(card) {
                 openTaki = true;
             }
         }
+    }
+    else if (card.value === "plus")
+    {
+        changeTurn(numOfPlayers);   
     }
     else {
         checkPlayerWin(1);
