@@ -44,6 +44,7 @@ function resetAll() {
     showDomElements();
     shareCardsToPlayers();
     showdeck();
+    arrow.style.transform = "rotate(0deg)";
 }
 
 function resetDeck() {
