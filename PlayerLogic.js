@@ -15,7 +15,7 @@ function checkStatus() {
 }
 
 function addCardToPlayersArrAndDom() {
-    
+
     var index = addCardToPlayersArr(players[turnIndex]);
     if (turnIndex === player) {
         addCardToPlayersDom("player", "player-cards", index);
@@ -54,7 +54,6 @@ function checkCard(elemntClassName, card, cardOntop) {
             if (turnIndex === player) {
                 if (card.color === cardOntop.color) {
                     removeAndSetTopCard(card, elemntClassName);
-                    // isSpecialCard(card);
                 }
             }
         }
@@ -64,7 +63,7 @@ function checkCard(elemntClassName, card, cardOntop) {
                 isSpecialCard(card);
             }
             else {
-                if (turnIndex === player)//console.log("wrong!");
+                if (turnIndex === player)
                     wrongSound.play();
             }
         }
@@ -72,8 +71,6 @@ function checkCard(elemntClassName, card, cardOntop) {
 }
 
 function removeAndSetTopCard(card, elemntClassName) {
-    console.log("IN removeAndSetTopCard, TURN INEX IS: " + turnIndex);
-
     removeCardFromPlayersArr(card);
     removeCardFromPlayersDom(card, elemntClassName);
     setNewCardOnTop(card);
@@ -85,17 +82,13 @@ function removeAndSetTopCard(card, elemntClassName) {
 function isSpecialCard(card) {
     if (card.value === "change_colorful" && turnIndex === player) {
         waitingForPlayer = true;
-        console.log("choose a color");
         showChooseAColorWindow();
     }
     else if (card.value === "stop") {
         if (players[turnIndex].length === 0) {
             alert("You have to take another card!");
         }
-
         changeTurn(2);
-
-
     }
     else if (card.value === "taki") {
         if (turnIndex !== player) {
@@ -105,14 +98,12 @@ function isSpecialCard(card) {
         else {
             if (!openTaki) {
                 createTakiButton();
-                console.log("open taki");
                 openTaki = true;
             }
         }
     }
-    else if (card.value === "plus")
-    {
-        changeTurn(numOfPlayers);   
+    else if (card.value === "plus") {
+        changeTurn(numOfPlayers);
     }
     else {
         checkPlayerWin(1);

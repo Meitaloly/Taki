@@ -14,83 +14,86 @@ var turnTime = [];
 var quitButtonClicked = false;
 var timer = gameTimer();
 var startTime = timer.getTime();
+var endTime;
 var numOfCardsForEachPlayer = 8;
-var wrongSound = new Audio();
-wrongSound.src = "sounds/wrong.mp3";
-var changeColorSound = new Audio();
-changeColorSound.src = "sounds/changeColorSound.mp3";
-var winnerSound = new Audio();
-winnerSound.src = "sounds/winner.mp3";
-var loserSound = new Audio();
-loserSound.src = "sounds/Fail.mp3";
+var wrongSound;
+var changeColorSound;
+var winnerSound;
+var loserSound;
 var avgTurnTimePerGame = [];
+var numOfColors = 4;
 
 
 function resetAll() {
     removeAllElementsFromDom();
     resetOneCardLeftPerPlayer();
-     takenCardsCounter = 0;
-     cardOntop = null;
-     gameOver = false;
-     resetDeck(); 
-     resetPlayersArr();
-     
-     
-     turnIndex = numOfPlayers - 1;
-     openTaki = false;
-     numOfTurns = 0;
-     resetTurnTime();
-     quitButtonClicked = false;
-     timer = gameTimer();
-     startTime = timer.getTime();
-    
-    
+    takenCardsCounter = 0;
+    cardOntop = null;
+    gameOver = false;
+    resetDeck();
+    resetPlayersArr();
+    turnIndex = numOfPlayers - 1;
+    openTaki = false;
+    numOfTurns = 0;
+    resetTurnTime();
+    quitButtonClicked = false;
+    timer = gameTimer();
+    startTime = timer.getTime();
     showDomElements();
-    
     shareCardsToPlayers();
     showdeck();
-
 }
 
-function resetDeck()
-{
-    for(var i=0;i<deck.length;i++)
-    {
+function resetDeck() {
+    for (var i = 0; i < deck.length; i++) {
         deck[i].taken = false;
         deck[i].played = false;
     }
 }
 
-function resetPlayersArr()
-{
-    for(var i=0;i<numOfPlayers;i++)
-    {
-        players[i].splice(0,players[i].length);
+function resetPlayersArr() {
+    for (var i = 0; i < numOfPlayers; i++) {
+        players[i].splice(0, players[i].length);
     }
-    players.splice(0,numOfPlayers);
+    players.splice(0, numOfPlayers);
 }
 
-function resetOneCardLeftPerPlayer()
-{
-    for(var i=0;i<numOfPlayers;i++)
-    {
-        oneCardLeftPerPlayer[i]=0;
+function resetOneCardLeftPerPlayer() {
+    for (var i = 0; i < numOfPlayers; i++) {
+        oneCardLeftPerPlayer[i] = 0;
     }
 }
 
-function resetTurnTime()
-{
-    
-    turnTime.splice(0,turnTime  .length);
+function resetTurnTime() {
+
+    turnTime.splice(0, turnTime.length);
 }
 
 startGame();
 
-function startGame() {
+
+function initialize() {
     setQuitButtonLogic();
+    wrongSound = new Audio();
+    wrongSound.src = "sounds/wrong.mp3";
+    changeColorSound = new Audio();
+    changeColorSound.src = "sounds/changeColorSound.mp3";
+    winnerSound = new Audio();
+    winnerSound.src = "sounds/winner.mp3";
+    loserSound = new Audio();
+    loserSound.src = "sounds/Fail.mp3";
     deck = createdeck();
+}
+
+function startGame() {
+    initialize();
     shareCardsToPlayers();
     showdeck();
+    console.log("rival cards are:");
+
+    for (let key in players[0]) {
+        console.log(players[0][key]);
+    }
 }
 
 
@@ -136,8 +139,6 @@ function gameTimer() {
     };
 }
 
-printall();
-
 function shareCardsToPlayers() {
     for (var i = 0; i < numOfPlayers; i++) {
         players[i] = new Array();
@@ -153,18 +154,16 @@ function shareCardsToPlayers() {
 
 function checkPlayerWin(num) {
     if (players[turnIndex].length === 0) {
-        //console.log("player " + turnIndex + " is the winner!");
         setTimeout(stopTheGame, 1000);
     }
     else {
-        // if (players[turnIndex].length === 1)
-        //     oneCardLeftPerPlayer[turnIndex]++;
         changeTurn(num);
     }
 
 }
 
 function stopTheGame() {
+    endTime = timer.getTime();
     timer.stopGameTimer();
     gameOver = true;
 
@@ -183,11 +182,10 @@ function findAvgOfTurnTime(arr, isAllGames) {
     else {
         avgStr = 0;
     }
-    if(!isAllGames)
-    {
+    if (!isAllGames) {
         avgTurnTimePerGame.push(avgStr);
     }
-        
+
     return avgStr;
 }
 function checkTopCard() {
@@ -214,7 +212,7 @@ function createdeck() {
     var deck = [];
     var cardIdCounter = 0;
 
-    for (var i = 0; i < 4; i++) {
+    for (var i = 0; i < numOfColors; i++) {
         for (var j = 1; j < 10; j++) {
             if (j !== 2) {
                 deck.push(new createCard(cardColors[i], j, cardIdCounter, false));
@@ -253,7 +251,6 @@ function addCardToPlayersArr(arrToAddTheCard) {
 }
 
 function removeCardFromPlayersArr(card) {
-    console.log("*+*+*+*** turn index is " + turnIndex);
     for (var key in players[turnIndex]) {
         if (players[turnIndex][key].cardId === card.cardId) {
             players[turnIndex].splice(players[turnIndex].indexOf(players[turnIndex][key]), 1);
@@ -275,29 +272,6 @@ function checkAndShuffleDeck() {
         }
     }
 }
-
-function printDeckArr() {
-    for (var i = 0; i < deck.length; i++) {
-        console.log(deck[i]);
-    }
-}
-
-//check
-
-function printall() {
-    console.log("rival cards are:");
-    for (let key in players[0]) {
-        console.log(players[0][key]);
-    }
-    // console.log ("player cards are:");
-
-    // for (let key in playerCards)
-    // {
-    //     console.log(playerCards[key]);
-    // }
-}
-// end of check 
-
 
 function getCardSource(value, color) {
     var cardSource;
@@ -330,7 +304,7 @@ function setNewCardOnTop(cardToPutOnTop) {
 }
 
 function changeTurn(number) {
-    var endTime = timer.getTime();
+    endTime = timer.getTime();
     if (!openTaki) {
         if (number !== 2) {
             setTurnTime(endTime);

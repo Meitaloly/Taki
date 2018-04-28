@@ -52,8 +52,7 @@ function showdeck() {
     setNumOfCardsText();
 }
 
-function setNumOfCardsText()
-{
+function setNumOfCardsText() {
     var deckStatusElement = document.getElementById("deckStatus");
     deckStatusElement.innerText = "Cards in deck: " + (deck.length - takenCardsCounter);
 
@@ -116,91 +115,72 @@ function resizeCards() {
     var cardSpace = 70;
 
     for (var i = 0; i < numOfPlayers; i++) {
-        console.log("-------------start---------------")
         for (var key in players[i]) {
-            console.log("player " + i + ": " + players[i][key].value + " " + players[i][key].color);
             var card = document.getElementById(players[i][key].cardId);
             if (card) {
                 card.style.marginLeft = -(cardWidth - cardSpace);
             }
         }
-        console.log("-------------end-----------------")
-
     }
 }
 
-function showStats()
-{
-     //var elementToAddTo = document.getElementsByClassName(elementClassName)[0];
-
-     var statsDiv = document.createElement('div');
-
-     var newGameButton = document.createElement('button');
-     newGameButton.textContent ="New Game";
-     newGameButton.style.height = "20px";
-     newGameButton.style.width = "100px";
-     newGameButton.onclick = function() {resetAll();};
-     if (quitButtonClicked) {
+function showStats() {
+    var statsDiv = document.createElement('div');
+    var newGameButton = document.createElement('button');
+    newGameButton.className = "NewGameButton";
+    newGameButton.textContent = "New Game";
+    newGameButton.onclick = function () { resetAll(); };
+    if (quitButtonClicked) {
         loserSound.play();
-         statsDiv.innerHTML += "The computer is the winner!<br />";
-         
-     }
-     else 
-     {
-         if(turnIndex === player)
-         {
+        statsDiv.innerHTML += "The computer is the winner!<br />";
+
+    }
+    else {
+        if (turnIndex === player) {
             winnerSound.play();
             statsDiv.innerHTML += "You are the winner!<br />";
 
-         }
-         else
-         {
-             loserSound.play();
+        }
+        else {
+            loserSound.play();
             statsDiv.innerHTML += "The computer is the winner!<br />";
-         }
-         numOfTurns++;
-     }
- 
-     statsDiv.innerHTML += "Number of turns in the game: " + numOfTurns +
-         "<br /> The game time is: " + timer.getTime() +
-         "<br />Player 1 had one card " + oneCardLeftPerPlayer[0] + " times" +
-         "<br /> Player 2 had one card " + oneCardLeftPerPlayer[1] + " times" +
-         "<br /> Avg of turns time is: " + findAvgOfTurnTime(turnTime,false) + 
-         "<br /> Avg of turns time in all games is: " + findAvgOfTurnTime(avgTurnTimePerGame,true);
-     statsDiv.style.color = "white";
-     statsDiv.style.textAlign = "center";
-     statsDiv.style.fontSize = "20px";
-     var container = document.getElementById("mainContainer");
-     container.style.display = "none";
-
-     var statsContainer = document.getElementsByClassName("stats")[0];
-     statsContainer.appendChild(statsDiv);
-     //document.body.appendChild(statsDiv);
-     statsContainer.appendChild(newGameButton);
-     statsContainer.style.display = "block";
+        }
+        numOfTurns++;
+    }
+    statsDiv.innerHTML += "Number of turns in the game: " + numOfTurns +
+        "<br /> The game time is: " + timer.getTime() +
+        "<br />Player 1 had one card " + oneCardLeftPerPlayer[0] + " times" +
+        "<br /> Player 2 had one card " + oneCardLeftPerPlayer[1] + " times" +
+        "<br /> Avg of turns time is: " + findAvgOfTurnTime(turnTime, false) +
+        "<br /> Avg of turns time in all games is: " + findAvgOfTurnTime(avgTurnTimePerGame, true);
+    statsDiv.style.color = "white";
+    statsDiv.style.textAlign = "center";
+    statsDiv.style.fontSize = "20px";
+    var container = document.getElementById("mainContainer");
+    container.style.display = "none";
+    var statsContainer = document.getElementsByClassName("stats")[0];
+    statsContainer.style.display = "flex";
+    statsContainer.appendChild(statsDiv);
+    statsContainer.appendChild(newGameButton);
 }
 
-function removeAllElementsFromDom()
-{
+function removeAllElementsFromDom() {
     removeAllChildren("statsContainer");
     removeAllChildren("rival");
     removeAllChildren("player");
 
 }
 
-function removeAllChildren(parentId)
-{
+function removeAllChildren(parentId) {
     var parent = document.getElementById(parentId);
     var currChild = parent.firstChild;
-    while(currChild)
-    {
+    while (currChild) {
         parent.removeChild(currChild);
         currChild = parent.firstChild;
     }
 }
 
-function showDomElements()
-{
+function showDomElements() {
     var container = document.getElementById("mainContainer");
     container.style.display = "";
 }

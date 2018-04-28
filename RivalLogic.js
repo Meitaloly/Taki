@@ -20,8 +20,11 @@ function getCardsFromRivalArrbByColor(color) {
 
 
 function rivalPlay() {
+    console.log("rival cards are:");
+    for (let key in players[0]) {
+        console.log(players[0][key]);
+    }
     if (!gameOver) {
-        console.log("rival plays");
         var goodCardFound = false;
 
         var changeColorCards = getCardsFromRivalArrbByValue("change_colorful");
@@ -46,8 +49,7 @@ function rivalPlay() {
                 if (!goodCardFound) // taki with the same color wasn't found
                 {
                     var plusCards = getCardsFromRivalArrbByValue("plus");
-                    if(plusCards.length > 0)
-                    {
+                    if (plusCards.length > 0) {
                         goodCardFound = findSpcialCardWithSameColor(plusCards);
                     }
                     if (!goodCardFound) {
@@ -76,8 +78,6 @@ function rivalPlay() {
                 }
             }
         }
-        console.log("**********Rival cards after his turn: ");
-        printall();
     }
 }
 
@@ -89,13 +89,10 @@ function findSpcialCardWithSameColor(cards) {
             if (cards[i].value === "stop") {
                 checkPlayerWin(2);
             }
-            else if(cards[i].value === "plus")
-            {
+            else if (cards[i].value === "plus") {
                 changeTurn(numOfPlayers);
             }
             else if (cards[i].value === "taki") {
-                console.log("Taki - rival");
-                console.log("IN findSpcialCardWithSameColor, TURN INEX IS: " + turnIndex);
                 putAllCardsWithSameColorOfTaki();
             }
             goodCardFound = true;
@@ -107,7 +104,6 @@ function findSpcialCardWithSameColor(cards) {
 
 var arrIndex = 0;
 function putAllCardsWithSameColorOfTaki() {
-    console.log("IN putAllCardsWithSameColorOfTaki, TURN INEX IS: " + turnIndex);
     var SameColorCards = getCardsFromRivalArrbByColor(cardOntop.color);
     if (SameColorCards.length > 0) {
         openTaki = true;
@@ -131,17 +127,6 @@ function newTimeOut(arrOfSameCards, takiTime) {
     }
 
 }
-
-// function doSetTimeout(card, i, length) {
-//     console.log("IN doSetTimeout, TURN INEX IS: " + turnIndex);
-//     setTimeout(function () {
-//         removeAndSetTopCard(card, "rival-cards");
-//         if (i === length) {
-//             checkPlayerWin(1);
-//         }
-//     }
-//         , i * 2000);
-// }
 
 function chooseColor() {
     var color = Math.floor(Math.random() * 4);
