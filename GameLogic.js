@@ -20,6 +20,8 @@ var wrongSound;
 var changeColorSound;
 var winnerSound;
 var loserSound;
+var shuffleSound;
+var takingCard;
 var avgTurnTimePerGame = [];
 var numOfColors = 4;
 
@@ -82,6 +84,10 @@ function initialize() {
     winnerSound.src = "sounds/winner.mp3";
     loserSound = new Audio();
     loserSound.src = "sounds/Fail.mp3";
+    shuffleSound = new Audio();
+    shuffleSound.src = "sounds/Shuffling Cards.mp3";
+    takingCard = new Audio();
+    takingCard.src = "sounds/takingCard.mp3";
     deck = createdeck();
 }
 
@@ -177,16 +183,17 @@ function findAvgOfTurnTime(arr, isAllGames) {
         for (var i = 0; i < arr.length; i++) {
             sum += arr[i];
         }
-        var avgStr = sum / arr.length;
+        var avgNum = Number(sum / arr.length);
+        avg = Number(avgNum.toFixed(2));
     }
     else {
-        avgStr = 0;
+        avg = 0;
     }
     if (!isAllGames) {
-        avgTurnTimePerGame.push(avgStr);
+        avgTurnTimePerGame.push(avg);
     }
 
-    return avgStr;
+    return avg;
 }
 function checkTopCard() {
     var nextTurn = 1;
@@ -262,7 +269,7 @@ function removeCardFromPlayersArr(card) {
 
 function checkAndShuffleDeck() {
     if (takenCardsCounter === deck.length) {
-        alert("Shuffling!");
+       shuffleSound.play();
         for (var i = 0; i < deck.length; i++) {
             if (deck[i].played) {
                 deck[i].played = false;

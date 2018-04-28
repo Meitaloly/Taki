@@ -17,6 +17,7 @@ function checkStatus() {
 function addCardToPlayersArrAndDom() {
 
     var index = addCardToPlayersArr(players[turnIndex]);
+    takingCard.play();
     if (turnIndex === player) {
         addCardToPlayersDom("player", "player-cards", index);
     }
@@ -85,9 +86,6 @@ function isSpecialCard(card) {
         showChooseAColorWindow();
     }
     else if (card.value === "stop") {
-        if (players[turnIndex].length === 0) {
-            alert("You have to take another card!");
-        }
         changeTurn(2);
     }
     else if (card.value === "taki") {
