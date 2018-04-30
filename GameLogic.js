@@ -15,7 +15,7 @@ var quitButtonClicked = false;
 var timer = gameTimer();
 var startTime = timer.getTime();
 var endTime;
-var numOfCardsForEachPlayer = 1;
+var numOfCardsForEachPlayer = 8;
 var wrongSound;
 var changeColorSound;
 var winnerSound;
