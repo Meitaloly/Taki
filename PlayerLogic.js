@@ -86,7 +86,13 @@ function isSpecialCard(card) {
         showChooseAColorWindow();
     }
     else if (card.value === "stop") {
-        changeTurn(2);
+        if (players[turnIndex].length === 0) {
+            stopTheGame();
+        }
+        else
+        {
+            changeTurn(2);
+        }
     }
     else if (card.value === "taki") {
         if (turnIndex !== player) {
