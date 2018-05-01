@@ -132,16 +132,16 @@ function checkSpacesBetweenCards(resizeArr, index) {
     if (players[index].length > 21) {
         resizeArr[index] -= 40;
     }
-    else if (players[index].length > 18) {
+    else if (players[index].length > 17) {
         resizeArr[index] -= 35;
     }
-    else if (players[index].length > 15) {
+    else if (players[index].length > 14) {
         resizeArr[index] -= 30;
     }
-    else if (players[index].length > 12) {
+    else if (players[index].length > 11) {
         resizeArr[index] -= 25;
     }
-    else if (players[index].length > 9) {
+    else if (players[index].length > 8) {
         resizeArr[index] -= 12;
     }
     else if (players[index].length < 5) {
