@@ -24,9 +24,11 @@ var shuffleSound;
 var takingCard;
 var avgTurnTimePerGame = [];
 var numOfColors = 4;
+var gameStarted = false; 
 
 
 function resetAll() {
+    gameStarted = false; 
     removeAllElementsFromDom();
     resetOneCardLeftPerPlayer();
     takenCardsCounter = 0;
@@ -43,6 +45,8 @@ function resetAll() {
     startTime = timer.getTime();
     showDomElements();
     shareCardsToPlayers();
+    gameStarted = true; 
+    resizeCards();
     showdeck();
     arrow.style.transform = "rotate(0deg)";
 }
@@ -101,6 +105,8 @@ function startGame() {
     for (let key in players[0]) {
         console.log(players[0][key]);
     }
+    gameStarted = true;
+    resizeCards();
 }
 
 
@@ -156,7 +162,6 @@ function shareCardsToPlayers() {
             players[i] = shareCards("rival");
         }
     }
-    resizeCards();
 }
 
 function checkPlayerWin(num) {

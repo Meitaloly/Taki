@@ -110,17 +110,42 @@ function closetButton(parentName, childId) {
     parent.removeChild(elementToRemove);
 }
 
+
 function resizeCards() {
     var cardWidth = 120;
-    var cardSpace = 70;
+    var cardSpace = 60;
+    var resizeArr = [0, 0];
 
     for (var i = 0; i < numOfPlayers; i++) {
+        if (gameStarted) {
+            checkSpacesBetweenCards(resizeArr, i);
+        }
         for (var key in players[i]) {
             var card = document.getElementById(players[i][key].cardId);
             if (card) {
-                card.style.marginLeft = -(cardWidth - cardSpace);
+                card.style.marginLeft = -(cardWidth - cardSpace - resizeArr[i]);
             }
         }
+    }
+}
+function checkSpacesBetweenCards(resizeArr, index) {
+    if (players[index].length > 21) {
+        resizeArr[index] -= 40;
+    }
+    else if (players[index].length > 18) {
+        resizeArr[index] -= 35;
+    }
+    else if (players[index].length > 15) {
+        resizeArr[index] -= 30;
+    }
+    else if (players[index].length > 12) {
+        resizeArr[index] -= 25;
+    }
+    else if (players[index].length > 9) {
+        resizeArr[index] -= 12;
+    }
+    else if (players[index].length < 5) {
+        resizeArr[index] += 25;
     }
 }
 
@@ -149,10 +174,10 @@ function showStats() {
     }
     statsDiv.innerHTML += "Number of turns in the game: " + numOfTurns +
         "<br /> The game time is: " + timer.getTime() +
-        "<br />Player 1 had one card " + oneCardLeftPerPlayer[0] + " times" +
-        "<br /> Player 2 had one card " + oneCardLeftPerPlayer[1] + " times" +
-        "<br /> Avg of turns time is: " + findAvgOfTurnTime(turnTime, false) +
-        "<br /> Avg of turns time in all games is: " + findAvgOfTurnTime(avgTurnTimePerGame, true);
+        "<br /> The computer had one card " + oneCardLeftPerPlayer[0] + " times" +
+        "<br /> You had one card " + oneCardLeftPerPlayer[1] + " times" +
+        "<br /> Avg of your turns time is: " + findAvgOfTurnTime(turnTime, false) +
+        "<br /> Avg of your turns time in all games is: " + findAvgOfTurnTime(avgTurnTimePerGame, true);
     statsDiv.style.color = "white";
     statsDiv.style.textAlign = "center";
     statsDiv.style.fontSize = "20px";
