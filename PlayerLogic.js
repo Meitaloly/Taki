@@ -56,6 +56,10 @@ function checkCard(elemntClassName, card, cardOntop) {
                 if (card.color === cardOntop.color) {
                     removeAndSetTopCard(card, elemntClassName);
                 }
+                else
+                {
+                    wrongSound.play();
+                }
             }
         }
         else {

@@ -129,8 +129,48 @@ function newTimeOut(arrOfSameCards, takiTime) {
 }
 
 function chooseColor() {
-    var color = Math.floor(Math.random() * 4);
+    var colorsArr = setColorsArr();
+    color = getColorFromColorsArr(colorsArr);
     return cardColors[color];
+}
+
+function setColorsArr() {
+    var resArr = [0, 0, 0, 0];
+    for (var i = 0; i < players[turnIndex].length; i++) {
+        if (players[turnIndex][i].color !== null) {
+            switch (players[turnIndex][i].color) {
+                case "blue":
+                    resArr[0]++;
+                    break;
+                case "red":
+                    resArr[1]++;
+                    break;
+                case "green":
+                    resArr[2]++;
+                    break;
+                case "yellow":
+                    resArr[3]++;
+                    break;
+
+            }
+        }
+    }
+    return resArr;
+}
+
+function getColorFromColorsArr(colorsArr) {
+    var max = 0;
+    var indexOfMaxNum = 0;
+    var res;
+
+    for (var i = 0; i < colorsArr.length; i++) {
+        if (colorsArr[i] > max) {
+            max = colorsArr[i];
+            indexOfMaxNum = i;
+        }
+    }
+    res = indexOfMaxNum;
+    return res;
 }
 
 function playWithColorChangeCard(card) {
