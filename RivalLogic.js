@@ -19,13 +19,14 @@ function getCardsFromRivalArrbByColor(color) {
 }
 
 function rivalPlay() {
-    
     console.log("rival cards are:");
     for (let key in players[0]) {
         console.log(players[0][key]);
     }
     if (!gameOver) {
         var goodCardFound = false;
+
+        
 
         var changeColorCards = getCardsFromRivalArrbByValue("change_colorful");
 

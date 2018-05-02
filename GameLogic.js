@@ -53,7 +53,7 @@ function resetAll() {
     gameStarted = true;
     resizeCards();
     showdeck();
-    setRivalCardsByColorAndType()
+    setRivalCardsByColorAndType();
     arrow.style.transform = "rotate(0deg)";
 }
 
