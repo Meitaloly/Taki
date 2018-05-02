@@ -1,4 +1,7 @@
 var cardColors = { 0: "blue", 1: "red", 2: "green", 3: "yellow" }
+var cardTypes = { "stop": 0, "plus": 1, "taki": 2, "change_colorful": 3 }
+var cardColorsStrToNum = { "blue": 0, "red": 1, "green": 2, "yellow": 3 }
+
 var takenCardsCounter = 0;
 var cardOntop;
 var gameOver = false;
@@ -24,11 +27,13 @@ var shuffleSound;
 var takingCard;
 var avgTurnTimePerGame = [];
 var numOfColors = 4;
-var gameStarted = false; 
+var gameStarted = false;
+var rivalCardsByColor = new Array(4);
+var rivalCardsByType = new Array(4);
 
 
 function resetAll() {
-    gameStarted = false; 
+    gameStarted = false;
     removeAllElementsFromDom();
     resetOneCardLeftPerPlayer();
     takenCardsCounter = 0;
@@ -45,9 +50,10 @@ function resetAll() {
     startTime = timer.getTime();
     showDomElements();
     shareCardsToPlayers();
-    gameStarted = true; 
+    gameStarted = true;
     resizeCards();
     showdeck();
+    setRivalCardsByColorAndType()
     arrow.style.transform = "rotate(0deg)";
 }
 
@@ -99,6 +105,11 @@ function initialize() {
 function startGame() {
     initialize();
     shareCardsToPlayers();
+    for (var i = 0; i < 4; i++) {
+        rivalCardsByType[i] = new Array();
+        rivalCardsByColor[i] = new Array();
+    }
+    setRivalCardsByColorAndType();
     showdeck();
     console.log("rival cards are:");
 
@@ -109,6 +120,45 @@ function startGame() {
     resizeCards();
 }
 
+function setRivalCardsByColorAndType() {
+    for (var i = 0; i < 4; i++) {
+        rivalCardsByType[i].splice(0,rivalCardsByType[i].length);
+        rivalCardsByColor[i].splice(0,rivalCardsByColor[i].length);
+    }
+
+    for (let key in players[0]) {
+        var card = players[0][key];
+        checkAndAddCardToRivalArrays(card,true);
+    }
+}
+
+function checkAndAddCardToRivalArrays(card, toAdd) {
+    if (card.specialCard) {
+        if (toAdd) {
+            rivalCardsByType[cardTypes[card.value]].push(card);
+        }
+        else {
+            removeFromRivalArr(rivalCardsByType[cardTypes[card.value]], card);
+        }
+    }
+    else {
+        if (toAdd) {
+            rivalCardsByColor[cardColorsStrToNum[card.color]].push(card);
+        }
+        else {
+            removeFromRivalArr(rivalCardsByColor[cardColorsStrToNum[card.color]], card);
+        }
+    }
+}
+
+function removeFromRivalArr(arr, card) {
+    for (var key in arr) {
+        if (arr[key].cardId === card.cardId) {
+            arr.splice(arr.indexOf(arr[key]), 1);
+            break;
+        }
+    }
+}
 
 function setQuitButtonLogic() {
     var quitButton = document.getElementById("quitButton");
@@ -259,9 +309,13 @@ function addCardToPlayersArr(arrToAddTheCard) {
     deck[index].taken = true;
     takenCardsCounter++;
     arrToAddTheCard.push(deck[index]);
+    if (turnIndex != player) {
+        checkAndAddCardToRivalArrays(deck[index], true);
+    }
 
     return index;
 }
+
 
 function removeCardFromPlayersArr(card) {
     for (var key in players[turnIndex]) {
@@ -271,11 +325,15 @@ function removeCardFromPlayersArr(card) {
         }
     }
     card.played = true;
+    if (turnIndex != player) {
+        checkAndAddCardToRivalArrays(card, false);
+    }
+
 }
 
 function checkAndShuffleDeck() {
     if (takenCardsCounter === deck.length) {
-       shuffleSound.play();
+        shuffleSound.play();
         for (var i = 0; i < deck.length; i++) {
             if (deck[i].played) {
                 deck[i].played = false;

@@ -18,8 +18,8 @@ function getCardsFromRivalArrbByColor(color) {
     return cards;
 }
 
-
 function rivalPlay() {
+    
     console.log("rival cards are:");
     for (let key in players[0]) {
         console.log(players[0][key]);
